@@ -4,9 +4,11 @@ from streamlit.components.v1 import html
 
 def chat():
   # chatbot giving useful tips
+  break
 
-def data():
+def data_storage():
   # storing data -> firebase?
+  break
 
 
 ## ------------------------ Page 1 ---------------------------------------##
