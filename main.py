@@ -2,13 +2,13 @@ import streamlit as st
 import streamlit.components.v1 as components
 from streamlit.components.v1 import html
 
-def chat():
+#def chat():
   # chatbot giving useful tips
-  break
 
-def data_storage():
+
+#def data_storage():
   # storing data -> firebase?
-  break
+
 
 
 ## ------------------------ Page 1 ---------------------------------------##
