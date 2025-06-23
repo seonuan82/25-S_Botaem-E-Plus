@@ -29,7 +29,7 @@ st.markdown(
     </style>
     """, unsafe_allow_html=True
 )
-st.image("/images/temp_logo.png")
+st.image("images/temp_logo.png")
 time.sleep(5)
 st.rerun()
 st.stop()
