@@ -16,19 +16,6 @@ from streamlit.components.v1 import html
 
 
 # Main_보탬e플러스 로고 및 챗봇의 유용한 팁
-st.markdown(
-    """
-    <style>
-        button[title^=Exit]+div [data-testid=stImage]{
-            text-align: center;
-            display: block;
-            margin-left: auto;
-            margin-right: auto;
-            width: 100%;
-        }
-    </style>
-    """, unsafe_allow_html=True
-)
 st.image("images/temp_logo.png")
 time.sleep(5)
 st.rerun()
