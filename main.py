@@ -16,7 +16,7 @@ from streamlit.components.v1 import html
 
 
 # Main_보탬e플러스 로고 및 챗봇의 유용한 팁
-st.markdown(Add commentMore actions
+st.markdown(
     """
     <style>
         button[title^=Exit]+div [data-testid=stImage]{
