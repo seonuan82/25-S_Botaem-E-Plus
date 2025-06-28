@@ -4,14 +4,14 @@ from st_supabase_connection import SupabaseConnection
 # Initialize connection.
 conn = st.connection("supabase",type=SupabaseConnection)
 
-def login_user(user_id: str, password: str):
+def login_user(user: str, password2: str):
     try:
-        result = supabase.table("users").select("*").eq("user_id", user_id).execute()
+        result = supabase.table("users").select("*").eq("user_id", user).execute()
         users = result.data
         if not users:
             new_user = {
-                "user_id": user_id,
-                "password": password
+                "user_id": user,
+                "password": password2
             }
             insert_result = supabase.table("users").insert(new_user).execute()
     
@@ -23,7 +23,7 @@ def login_user(user_id: str, password: str):
     
         else:
             user = users[0]
-            if user["password"] == password:
+            if user["password"] == password2:
                 return True, user
     except Exception:
         return False, None
