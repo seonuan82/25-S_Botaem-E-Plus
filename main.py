@@ -19,7 +19,6 @@ def show_login_form():
             st.error("비밀번호가 바르지 않습니다.")
 
 if 'user' not in st.session_state:
-    conn = st.connection("supabase",type=SupabaseConnection)
     show_logo()
     show_login_form()
 else:
