@@ -1,7 +1,8 @@
-from supabase import create_client
+import streamlit as st
+from st_supabase_connection import SupabaseConnection
 
-key = st.secrets[NEXT_PUBLIC_SUPABASE_ANON_KEY]
-supabase = create_client(url, key)
+# Initialize connection.
+conn = st.connection("supabase",type=SupabaseConnection)
 
 def login_user(user_id: str, password: str):
     try:
