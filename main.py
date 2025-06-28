@@ -15,7 +15,6 @@ def show_login_form():
         success, session = login_user(user_id, password)
         if success:
             st.session_state['user'] = session
-            st.success("로그인 성공")
             st.switch_page("pages/Main_Page.py")
         else:
             st.error("비밀번호가 바르지 않습니다.")
