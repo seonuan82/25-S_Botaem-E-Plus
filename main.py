@@ -18,7 +18,7 @@ def show_login_form():
         else:
             st.error("비밀번호가 바르지 않습니다.")
 
-if 'user' not in st.session_state:
+if 'user_id' not in st.session_state:
     show_logo()
     show_login_form()
 else:
