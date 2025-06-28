@@ -8,15 +8,17 @@ def show_logo():
 
 def show_login_form():
     st.title("로그인")
-    ID = st.text_input("ID")
+    user_id = st.text_input("ID")
     password = st.text_input("비밀번호", type="password")
+
     if st.button("로그인"):
-        success, session = login_user(ID, password)
+        success, session = login_user(user_id, password)
         if success:
             st.session_state['user'] = session
+            st.success("로그인 성공")
             st.switch_page("pages/Main_Page.py")
         else:
-            st.error("로그인 실패. 다시 시도해주세요.")
+            st.error("비밀번호가 바르지 않습니다.")
 
 if 'user' not in st.session_state:
     show_logo()
