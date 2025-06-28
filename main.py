@@ -4,7 +4,6 @@ from utility.supabase import login_user
 
 def show_logo():
     st.image("images/logo.png", use_container_width=True)
-    time.sleep(3)
 
 def show_login_form():
     st.title("로그인")
@@ -14,7 +13,7 @@ def show_login_form():
     if st.button("로그인"):
         success, session = login_user(user_id, password)
         if success:
-            st.session_state['user'] = session
+            st.session_state['user_id'] = session
             st.switch_page("pages/Main_Page.py")
         else:
             st.error("비밀번호가 바르지 않습니다.")
