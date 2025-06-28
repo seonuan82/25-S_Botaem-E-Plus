@@ -12,52 +12,55 @@ TOTAL_SUBSIDY = 500_000
 
 # --- 로그인 상태 확인 ---
 if 'user' not in st.session_state:
-    st.subheader("로그인")
-    user_id = st.text_input("아이디")
-    password = st.text_input("비밀번호", type="password")
+    with st.form("login_form"):
+        st.subheader("🔐 로그인")
+        user_id = st.text_input("아이디")
+        password = st.text_input("비밀번호", type="password")
+        submitted = st.form_submit_button("로그인")
 
-    if st.button("로그인"):
-        success, user = login_user(user_id, password)
-        if success:
-            st.session_state['user'] = user
-            st.success("로그인 성공!")
-            st.stop()
-        else:
-            st.error("아이디 또는 비밀번호가 잘못되었습니다.")
-    st.stop()  # 로그인 안됐으면 뒤 코드 실행 중단
+        if submitted:
+            success, user = login_user(user_id, password)
+            if success:
+                st.session_state['user'] = user
+                st.success("✅ 로그인 성공!")
+                st.experimental_rerun()
+            else:
+                st.error("❌ 아이디 또는 비밀번호가 잘못되었습니다.")
+    st.stop()
 
-# --- 로그인 후 화면 ---
+# 로그인된 사용자 정보
 user = st.session_state['user']
 user_id = user.get('user_id') or user.get('id')
 
+# 로그인 후 정보 표시
+st.markdown("---")
+st.subheader(f"👋 {user_id}님, 환영합니다!")
+
 col1, col2 = st.columns([1, 2])
 
+# 최근 사용 내역
 with col1:
-    st.subheader("최근 사용 내역")
+    st.markdown("### 🧾 최근 사용 내역")
     try:
         recent = get_recent_records(user_id=user_id)
         if recent:
             for r in recent:
-                st.write(f"- {r['category']}: {r['amount']}원")
+                st.write(f"- {r['category']} : {r['amount']}원")
         else:
-            st.info("사용 내역이 없습니다.")
+            st.info("최근 사용 내역이 없습니다.")
     except Exception as e:
-        st.error("사용 내역을 불러오는 데 실패했습니다.")
+        st.error("사용 내역을 불러오는 중 오류가 발생했습니다.")
         st.exception(e)
 
-    if st.button("내역 추가"):
-        st.info("내역 추가 페이지는 향후 구현 예정입니다.")
-
-    if st.button("전체 보기"):
-        st.info("전체 보기 페이지는 향후 구현 예정입니다.")
-
+# 사용 요약 및 보조금
 with col2:
-    st.subheader("카테고리별 사용 현황")
+    st.markdown("### 📊 카테고리별 사용 현황")
     try:
         summary = get_summary(user_id=user_id)
         if summary:
             labels = list(summary.keys())
             sizes = list(summary.values())
+
             fig, ax = plt.subplots()
             ax.pie(sizes, labels=labels, autopct='%1.1f%%')
             st.pyplot(fig)
@@ -71,11 +74,12 @@ with col2:
         st.metric("총 보조금", f"{TOTAL_SUBSIDY:,}원")
         st.metric("남은 보조금", f"{remaining:,}원")
     except Exception as e:
-        st.error("요약 정보를 불러오는 데 실패했습니다.")
+        st.error("요약 정보를 불러오는 중 오류가 발생했습니다.")
         st.exception(e)
 
-# --- 오늘의 팁 ---
-if st.button("💡 오늘의 팁"):
+# 오늘의 팁
+st.markdown("---")
+if st.button("💡 오늘의 팁 보기"):
     try:
         tip = get_today_tip()
         st.info(f"💬 {tip}")
