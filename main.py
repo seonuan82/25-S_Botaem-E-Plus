@@ -3,7 +3,7 @@ import time
 from utility.supabase import login_user
 
 def show_logo():
-    st.image("images/logo.png", use_column_width=True)
+    st.image("images/logo.png", use_container_width=True)
     time.sleep(3)
 
 def show_login_form():
