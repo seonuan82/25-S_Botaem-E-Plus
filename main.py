@@ -8,7 +8,7 @@ def show_logo():
 
 def show_login_form():
     st.title("로그인")
-    email = st.text_input("ID")
+    ID = st.text_input("ID")
     password = st.text_input("비밀번호", type="password")
     if st.button("로그인"):
         success, session = login_user(ID, password)
