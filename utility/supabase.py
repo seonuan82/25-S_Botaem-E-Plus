@@ -1,10 +1,27 @@
 from supabase import create_client
+
+key = st.secrets[NEXT_PUBLIC_SUPABASE_ANON_KEY]
 supabase = create_client(url, key)
 
-def login_user(entered_id, password):
+def login_user(user_id: str, password: str):
     try:
-        result = supabase.auth.sign_in_with_password({"id": entered_id, "password": password})
-        return True, result.user
+        result = supabase.table("users").select("*").eq("user_id", user_id).execute()
+        users = result.data
+        if not users:
+            new_user = {
+                "id": str(uuid4()),
+                "user_id": user_id,
+                "password": password,
+                "created_at": datetime.datetime.utcnow().isoformat()
+            }
+            supabase.table("users").insert(new_user).execute()
+            return new_user
+        else:
+            user = users[0]
+            if user["password"] == password:
+                return user
+            else:
+                return None
     except Exception:
         return False, None
 
