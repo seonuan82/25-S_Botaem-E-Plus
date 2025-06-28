@@ -10,19 +10,21 @@ def login_user(user_id: str, password: str):
         users = result.data
         if not users:
             new_user = {
-                "id": str(uuid4()),
                 "user_id": user_id,
-                "password": password,
-                "created_at": datetime.datetime.utcnow().isoformat()
+                "password": password
             }
-            supabase.table("users").insert(new_user).execute()
-            return new_user
+            insert_result = supabase.table("users").insert(new_user).execute()
+    
+            if insert_result.error:
+                print("실패:", insert_result.error)
+                return False, None
+            else:
+                return True, new_user
+    
         else:
             user = users[0]
             if user["password"] == password:
-                return user
-            else:
-                return None
+                return True, user
     except Exception:
         return False, None
 
