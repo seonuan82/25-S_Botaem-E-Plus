@@ -1,12 +1,9 @@
 from supabase import create_client
-
-url = "https://yourproject.supabase.co"
-key = "your-anon-or-service-role-key"
 supabase = create_client(url, key)
 
-def login_user(email, password):
+def login_user(entered_id, password):
     try:
-        result = supabase.auth.sign_in_with_password({"email": email, "password": password})
+        result = supabase.auth.sign_in_with_password({"id": entered_id, "password": password})
         return True, result.user
     except Exception:
         return False, None
