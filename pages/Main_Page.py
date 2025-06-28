@@ -11,6 +11,29 @@ if 'user' not in st.session_state:
     st.switch_page("main.py")
     st.stop()
 
+
+
+user_id = st.session_state['user'].get('user_id') or st.session_state['user'].get('id')
+
+# ✅ 값이 없다면 예외 처리
+if not user_id:
+    st.error("사용자 정보에 user_id가 없습니다.")
+    st.stop()
+
+# 📦 전체 기록 가져오기
+try:
+    records = get_all_records(user_id=user_id)
+    if records:
+        st.dataframe(records)
+    else:
+        st.info("사용 내역이 없습니다.")
+except Exception as e:
+    st.error("데이터를 불러오는 데 문제가 발생했습니다.")
+    st.exception(e)
+
+
+
+
 user_id = st.session_state['user']['user_id']
 TOTAL_SUBSIDY = 500_000  # 총 보조금
 
