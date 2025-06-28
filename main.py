@@ -1,6 +1,6 @@
 import streamlit as st
-import time
 from utility.supabase import login_user
+from st_supabase_connection import SupabaseConnection
 
 def show_logo():
     st.image("images/logo.png", use_container_width=True)
@@ -19,6 +19,7 @@ def show_login_form():
             st.error("비밀번호가 바르지 않습니다.")
 
 if 'user' not in st.session_state:
+    conn = st.connection("supabase",type=SupabaseConnection)
     show_logo()
     show_login_form()
 else:
