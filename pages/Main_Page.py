@@ -4,7 +4,7 @@ import matplotlib.pyplot as plt
 from utility.chat import get_today_tip
 
 st.title("보탬 E 플러스")
-if 'user_id' not in st.session_state:
+if 'user' not in st.session_state:
     st.warning("로그인이 필요합니다. 로그인 페이지로 이동합니다.")
     st.switch_page("main.py")
 
@@ -13,7 +13,7 @@ col1, col2 = st.columns([1, 2])
 
 with col1:
     st.subheader("최근 사용 내역")
-    recent = get_recent_records(user_id=st.session_state['user_id'])
+    recent = get_recent_records(user_id=st.session_state['user']['id'])
     for r in recent:
         st.write(f"- {r['category']}: {r['amount']}원")
 
@@ -22,7 +22,7 @@ with col1:
 
 with col2:
     st.subheader("카테고리별 사용 현황")
-    summary = get_summary(user_id=st.session_state['user_id'])
+    summary = get_summary(user_id=st.session_state['user']['id'])
     labels = list(summary.keys())
     sizes = list(summary.values())
 
