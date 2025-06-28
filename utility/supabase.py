@@ -1,4 +1,4 @@
-import uuid
+from uuid import uuid4
 import streamlit as st
 from st_supabase_connection import SupabaseConnection
 
