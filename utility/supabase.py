@@ -10,7 +10,7 @@ def login_user(user_id: str, password: str):
         return False, None
 
     # 1. users 테이블에서 user_id 검색
-    result = supabase.table("users").select("*").eq("user_id", user_id).execute()
+    result = conn.table("users").select("*").eq("user_id", user_id).execute()
     users = result.data
     print("🔍 조회 결과:", users)
 
@@ -21,7 +21,7 @@ def login_user(user_id: str, password: str):
             "user_id": user_id,
             "password": password
         }
-        insert_result = supabase.table("users").insert(new_user).execute()
+        insert_result = conn.table("users").insert(new_user).execute()
         if insert_result.error:
             print("❌ 삽입 실패:", insert_result.error)
             return False, None
@@ -39,17 +39,17 @@ def login_user(user_id: str, password: str):
 
 
 def get_recent_records(user_id):
-    return supabase.table("records").select("*").eq("user_id", user_id).order("date", desc=True).limit(5).execute().data
+    return conn.table("records").select("*").eq("user_id", user_id).order("date", desc=True).limit(5).execute().data
 
 def get_summary(user_id):
-    data = supabase.table("records").select("category, amount").eq("user_id", user_id).execute().data
+    data = conn.table("records").select("category, amount").eq("user_id", user_id).execute().data
     summary = {}
     for d in data:
         summary[d["category"]] = summary.get(d["category"], 0) + d["amount"]
     return summary
 
 def get_all_records(user_id):
-    return supabase.table("records").select("*").eq("user_id", user_id).execute().data
+    return conn.table("records").select("*").eq("user_id", user_id).execute().data
 
 def add_record(user_id, category, amount, note):
-    supabase.table("records").insert({"user_id": user_id, "category": category, "amount": amount, "note": note}).execute()
+    conn.table("records").insert({"user_id": user_id, "category": category, "amount": amount, "note": note}).execute()
