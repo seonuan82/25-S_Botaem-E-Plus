@@ -9,6 +9,7 @@ st.title("보탬 E 플러스")
 if 'user' not in st.session_state:
     st.warning("로그인이 필요합니다. 로그인 페이지로 이동합니다.")
     st.switch_page("main.py")
+    st.stop()
 
 user_id = st.session_state['user']['user_id']
 TOTAL_SUBSIDY = 500_000  # 총 보조금
