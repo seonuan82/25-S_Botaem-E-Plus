@@ -11,7 +11,7 @@ def init_sheet():
         st.secrets['gsheet'], scope
     )
     client = gspread.authorize(credentials)
-    return client.open_by_url(st.secrets['sheet_url']) 
+    return client.open_by_url(st.secrets['https://docs.google.com/spreadsheets/d/1xcDDzaS5rk3jhXbU3215XXYlF2vK9-LTwKqS96f6yq4/edit?gid=0#gid=0']) 
 
 
 def login_user(user_id: str, password: str):
