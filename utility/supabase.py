@@ -35,8 +35,16 @@ def login_user(user_id: str, password: str):
 
 
 
-def get_recent_records(user_id):
-    return conn.table("records").select("*").eq("user_id", user_id).order("date", desc=True).limit(5).execute().data
+def get_recent_records(user_id: str):
+    return (
+        conn.table("records")
+        .select("*")
+        .eq("user_id", user_id)  # 로그인한 사용자만 필터
+        .order("date", desc=True)
+        .limit(5)
+        .execute()
+        .data
+    )
 
 def get_summary(user_id):
     data = conn.table("records").select("category, amount").eq("user_id", user_id).execute().data
