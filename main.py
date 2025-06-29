@@ -23,6 +23,7 @@ if 'user' not in st.session_state:
             if success:
                 st.session_state['user'] = user
                 st.success("로그인에 성공했습니다!")
+                st.rerun()
             else:
                 st.error("아이디 또는 비밀번호가 잘못되었습니다.")
     st.stop()
