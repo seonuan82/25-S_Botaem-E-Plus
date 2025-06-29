@@ -21,7 +21,7 @@ def login_user(user_id: str, password: str):
     timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
     for user in users:
-        stored_id = str(user.get("id", "")).strip()
+        stored_id = str(user.get("user_id", "")).strip()
         stored_pw = str(user.get("password", "")).strip()
 
         if stored_id == user_id.strip():
