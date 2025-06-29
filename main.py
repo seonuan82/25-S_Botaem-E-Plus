@@ -3,6 +3,8 @@ from utility.gsheet import login_user, get_recent_records, get_summary, add_reco
 from utility.chat import get_today_tip
 import matplotlib.pyplot as plt
 from uuid import uuid4
+import datetime
+from utility.ocr import extract_receipt_info
 
 st.set_page_config(page_title="보탬 E 플러스", layout="wide")
 st.title("보탬 E 플러스")
@@ -37,7 +39,7 @@ user_id = user['id']
 st.markdown("---")
 st.subheader(f"{user_id}님, 환영합니다!")
 
-tab1, tab2, tab3, tab4 = st.tabs(["📋 사용 내역", "새 입력", "전체 내역", "챗봇에게 질문"])
+tab1, tab2, tab3, tab4 = st.tabs(["사용 내역", "새 입력", "전체 내역", "챗봇에게 질문"])
 
 with tab1:
     col1, col2 = st.columns([1, 2])
@@ -86,6 +88,23 @@ with tab1:
 with tab2:
     st.subheader("새 사용 내역 입력")
 
+    uploaded_image = st.file_uploader("영수증 이미지를 업로드하세요", type=["jpg", "jpeg", "png"])
+    ocr_amount = 0
+    ocr_date = datetime.date.today()
+    ocr_note = ""
+
+    if uploaded_image:
+        try:
+            ocr_amount, ocr_date, ocr_note, ocr_text = extract_receipt_info(uploaded_image)
+            st.image(uploaded_image, caption="업로드한 영수증", use_column_width=True)
+            st.text_area("OCR 결과", ocr_text, height=200)
+            st.success(f"추출된 금액: {ocr_amount:,}원")
+            st.success(f"추출된 날짜: {ocr_date}")
+            st.info(f"추출된 비고: {ocr_note}")
+        except Exception as e:
+            st.error("OCR 처리 중 오류가 발생했습니다.")
+            st.exception(e)
+
     with st.form("entry_form"):
         category = st.selectbox("카테고리", ["식비", "교통", "의료", "기타"])
         amount = st.number_input("금액", min_value=0)
@@ -95,7 +114,7 @@ with tab2:
     
         if submitted:
             success = add_record(
-                user_id=user['id'],   # ✅ UUID로 통일
+                user_id=user['id'],   # UUID로 통일
                 category=category,
                 amount=amount,
                 note=note,
