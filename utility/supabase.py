@@ -66,7 +66,6 @@ def add_record(user_id, category, amount, note):
         return 'ID ERROR'
 
     new_record = {
-        "id" = str(uuid4()),
         "user_id": user_id,
         "category": category,
         "amount": amount,
