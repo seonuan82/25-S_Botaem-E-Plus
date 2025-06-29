@@ -8,7 +8,7 @@ import datetime
 from utility.ocr import extract_receipt_info
 
 st.set_page_config(page_title="보탬 E 플러스", layout="wide")
-st.logo("images/logo1.png",)
+st.image("images/logo1.png",width=400)
 
 font_path = "fonts/NotoSansKR-Regular.ttf"
 font_prop = fm.FontProperties(fname=font_path)
@@ -42,7 +42,7 @@ user_id = user['id']
 
 # 로그인 후 정보 표시
 st.markdown("---")
-st.logo("images/logo1.png")
+st.image("images/logo1.png",width=400)
 st.subheader(f"{user['user_id']}님, 환영합니다!")
 
 tab1, tab2, tab3, tab4 = st.tabs(["사용 내역", "내역 추가", "전체 내역", "챗봇에게 질문"])
