@@ -111,6 +111,9 @@ with tab3:
         if recent:
             for r in recent:
                 st.write(f"- {r['category']} : {r['amount']}원")
+    except Exception as e:
+        st.error("저장에 실패했습니다.")
+        st.exception(e)
 
 with tab4:
     st.subheader("챗봇에게 질문")
