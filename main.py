@@ -37,9 +37,9 @@ user_id = user['id']
 
 # 로그인 후 정보 표시
 st.markdown("---")
-st.subheader(f"{user_id}님, 환영합니다!")
+st.subheader(f"{user['user_id']}님, 환영합니다!")
 
-tab1, tab2, tab3, tab4 = st.tabs(["사용 내역", "새 입력", "전체 내역", "챗봇에게 질문"])
+tab1, tab2, tab3, tab4 = st.tabs(["사용 내역", "내역 추가", "전체 내역", "챗봇에게 질문"])
 
 with tab1:
     col1, col2 = st.columns([1, 2])
