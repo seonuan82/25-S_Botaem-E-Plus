@@ -109,14 +109,15 @@ with tab2:
 
 with tab3:
     st.subheader("전체 사용 내역")
-    st.markdown("### 최근 사용 내역")
     try:
-        recent = get_recent_records(user_id=user_id)
-        if recent:
-            for r in recent:
-                st.write(f"- {r['category']} : {r['amount']}원")
+        all_records = get_all_records(user_id=user_id)
+        if all_records:
+            for r in all_records:
+                st.write(f"- {r['date']} | {r['category']} : {r['amount']}원 ({r['note']})")
+        else:
+            st.info("저장된 전체 내역이 없습니다.")
     except Exception as e:
-        st.error("저장에 실패했습니다.")
+        st.error("전체 내역을 불러오는 중 오류가 발생했습니다.")
         st.exception(e)
 
 with tab4:
