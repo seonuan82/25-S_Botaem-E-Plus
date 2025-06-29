@@ -61,6 +61,3 @@ def extract_receipt_info(image_file):
     note = lines[0] if lines else ""
 
     return amount, date, note, full_text
-
-    except Exception as e:
-        raise RuntimeError(f"OCR 처리 중 오류 발생: {e}")
