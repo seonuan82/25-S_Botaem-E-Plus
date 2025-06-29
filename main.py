@@ -53,10 +53,10 @@ with tab1:
                 cat, amount = st.columns([1,2])
                 with cat:
                     for r in recent:
-                        st.markdown(f"<h6 style='text-align: center;'>{r['category']}"</h6>, unsafe_allow_html=True) 
+                        st.markdown(f"<h6 style='text-align: center;'>{r['category']}</h6>", unsafe_allow_html=True) 
                 with amount:
                     for r in recent:
-                        st.markdown(f"<h6 style='text-align: center;'>{r['amount']}"</h6>, unsafe_allow_html=True) 
+                        st.markdown(f"<h6 style='text-align: center;'>{r['amount']}</h6>", unsafe_allow_html=True) 
             else:
                 st.info("최근 사용 내역이 없습니다.")
         except Exception as e:
@@ -182,16 +182,16 @@ with tab3:
             date, cat2, amount2, note = st.columns(4)
             with date:
                 for r in recent:
-                    st.markdown(f"<p style='text-align: center;'>{r['date']}"</p>, unsafe_allow_html=True) 
+                    st.markdown(f"<p style='text-align: center;'>{r['date']}</p>", unsafe_allow_html=True) 
             with cat2:
                 for r in recent:
-                    st.markdown(f"<p style='text-align: center;'>{r['category']}"</p>, unsafe_allow_html=True) 
+                    st.markdown(f"<p style='text-align: center;'>{r['category']}</p>", unsafe_allow_html=True) 
             with amount2:
                 for r in recent:
-                    st.markdown(f"<p style='text-align: center;'>{r['amount']}"</p>, unsafe_allow_html=True)  
+                    st.markdown(f"<p style='text-align: center;'>{r['amount']}</p>", unsafe_allow_html=True)  
             with note:
                 for r in recent:
-                    st.markdown(f"<p style='text-align: center;'>{r['note']}"</p>, unsafe_allow_html=True)  
+                    st.markdown(f"<p style='text-align: center;'>{r['note']}</p>", unsafe_allow_html=True)  
         else:
             st.info("저장된 전체 내역이 없습니다.")
     except Exception as e:
