@@ -64,7 +64,6 @@ def extract_receipt_info(image_file):
                     date = datetime.datetime.strptime(raw_date, fmt).date()
                     break
                 except ValueError:
-            pass
 
     # Extract note/store name
     lines = [line.strip() for line in full_text.split("\n") if line.strip()]
