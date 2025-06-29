@@ -45,7 +45,7 @@ with tab1:
     col1, col2 = st.columns([1, 2])
 
     # 최근 사용 내역
-        with col1:
+    with col1:
         used_total = sum(summary.values()) if summary else 0
         remaining = TOTAL_SUBSIDY - used_total
 
