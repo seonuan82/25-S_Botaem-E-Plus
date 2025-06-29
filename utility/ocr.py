@@ -49,19 +49,37 @@ def extract_receipt_info(image_file):
     # Extract date
     date = datetime.date.today()
     date_patterns = [
-        r"\d{4}[./-]\d{1,2}[./-]\d{1,2}",          # 2024-06-29 or 2024.6.29
-        r"\d{2}[./-]\d{1,2}[./-]\d{1,2}",          # 24.6.29
-        r"\d{4}년\s*\d{1,2}월\s*\d{1,2}일",        # 2024년 6월 29일
-        r"\d{1,2}/\d{1,2}/\d{4}",                 # 06/29/2024
+        r"\d{4}[./-]\d{1,2}[./-]\d{1,2}",              # 2024-06-29, 2024.6.29, 2024/06/29
+        r"\d{2}[./-]\d{1,2}[./-]\d{1,2}",              # 24.6.29, 29.06.24
+        r"\d{4}년\s*\d{1,2}월\s*\d{1,2}일",             # 2024년 6월 29일
+        r"\d{1,2}/\d{1,2}/\d{4}",                      # 06/29/2024
+        r"\d{4}/\d{1,2}/\d{1,2}",                      # 2024/06/29
+        r"\d{1,2}/\d{1,2}/\d{2}",                      # 29/06/24
     ]
 
     for pattern in date_patterns:
         match = re.search(pattern, full_text)
         if match:
             raw_date = match.group().strip()
-            for fmt in ["%Y-%m-%d", "%Y.%m.%d", "%y.%m.%d", "%m/%d/%Y", "%Y년 %m월 %d일"]:
+
+            # Handle Korean format: "2024년 6월 29일"
+            if "년" in raw_date:
                 try:
-                    date = datetime.datetime.strptime(raw_date, fmt).date()
+                    parts = re.findall(r"\d+", raw_date)
+                    year, month, day = map(int, parts)
+                    date = datetime.date(year, month, day)
+                    break
+                except Exception:
+                    continue
+                    
+            for fmt in [
+                "%Y-%m-%d", "%Y.%m.%d", "%Y/%m/%d",
+                "%y.%m.%d", "%y-%m-%d", "%y/%m/%d",
+                "%m/%d/%Y", "%d/%m/%y"
+            ]:
+                try:
+                    parsed = datetime.datetime.strptime(raw_date, fmt).date()
+                    date = parsed
                     break
                 except ValueError:
                     continue
