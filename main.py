@@ -8,13 +8,13 @@ import datetime
 from utility.ocr import extract_receipt_info
 
 st.set_page_config(page_title="보탬 E 플러스", layout="wide")
-st.image("images/logo1.png",width=200)
 
 # 총 보조금 상수
 TOTAL_SUBSIDY = 5_000_000
 
 # --- 로그인 상태 확인 ---
 if 'user' not in st.session_state:
+    st.image("images/logo1.png",width=200)
     with st.form("login_form"):
         st.subheader("로그인")
         user_id = st.text_input("아이디")
@@ -37,7 +37,9 @@ user_id = user['id']
 
 # 로그인 후 정보 표시
 st.markdown("---")
+st.image("images/logo1.png",width=100)
 st.subheader(f"{user['user_id']}님, 환영합니다!")
+
 
 tab1, tab2, tab3, tab4 = st.tabs(["사용 내역", "내역 추가", "전체 내역", "챗봇에게 질문"])
 
