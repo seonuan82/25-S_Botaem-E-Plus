@@ -106,11 +106,11 @@ with tab2:
 with tab3:
     st.subheader("전체 사용 내역")
     st.markdown("### 최근 사용 내역")
-        try:
-            recent = get_recent_records(user_id=user_id)
-            if recent:
-                for r in recent:
-                    st.write(f"- {r['category']} : {r['amount']}원")
+    try:
+        recent = get_recent_records(user_id=user_id)
+        if recent:
+            for r in recent:
+                st.write(f"- {r['category']} : {r['amount']}원")
 
 with tab4:
     st.subheader("챗봇에게 질문")
