@@ -192,7 +192,7 @@ with tab4:
 
     # 입력창
     input_key = f"chat_input_{chat_id}"
-    user_message = st.text_input("네오에게 질문해보세요.", key=input_key)
+    user_message = st.text_input("태미미에게 질문해보세요.", key=input_key)
     
     if user_message:
         try:
@@ -246,10 +246,10 @@ with tab4:
         for q, a in logs:
             chat_html += f"""
             <div class="bubble-user">
-                <b>You:</b> {q}
+                <b>당신:</b> {q}
             </div>
             <div class="bubble-agent">
-                <b>Neo:</b> {a}
+                <b>태미:</b> {a}
             </div>
             """
     
