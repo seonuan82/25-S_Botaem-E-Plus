@@ -6,12 +6,13 @@ import matplotlib.font_manager as fm
 from uuid import uuid4
 import datetime
 from utility.ocr import extract_receipt_info
-import os
 
 st.set_page_config(page_title="보탬 E 플러스", layout="wide")
 st.logo("images/logo1.png",)
 
-
+font_path = "fonts/NotoSansKR-Regular.ttf"
+font_prop = fm.FontProperties(fname=font_path)
+plt.rcParams['font.family'] = font_prop.get_name()
 
 
 # 총 보조금 상수
@@ -80,8 +81,7 @@ with tab1:
                 labels = ['내역 없음']
                 sizes = [1]
 
-            plt.rcParams['font.family'] = 'DejaVu Sans'
-            fig, ax = plt.subplots(figsize=(2, 2))
+            fig, ax = plt.subplots(figsize=(4, 4))
             ax.pie(sizes, labels=labels, autopct='%1.1f%%')
             st.pyplot(fig)
 
