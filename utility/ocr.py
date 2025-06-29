@@ -38,9 +38,9 @@ def extract_receipt_info(image_file):
 
     # Extract ammount
     amount = 0
-    amount_match = re.search(r'(합계|총액|합계금액)[^\d]*(\d{1,3}(,\d{3})*)', full_text)
+    amount_match = re.search(r'(합계|총액|합계금액)[^\d#₩]*[#₩]?\s*([\d.,]+)', full_text)
     if amount_match:
-        amount_str = amount_match.group(2).replace(",", "")
+        amount_str = amount_match.group(2).replace(",", "").replace(".", "")
         try:
             amount = int(amount_str)
         except ValueError:
