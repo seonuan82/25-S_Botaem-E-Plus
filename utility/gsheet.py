@@ -45,13 +45,13 @@ def add_record(user_id, category, amount, note, date):
     timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     
     new_row = [
-        "timestamp": timestamp,
-        "id": str(uuid4()),
-        "user_id": user_id,
-        "category": category,
-        "amount": amount,
-        "note": note,
-        "date": date.strftime("%Y-%m-%d")
+            timestamp,
+            str(uuid4()),
+            user_id,
+            category,
+            amount,
+            note,
+            date.strftime("%Y-%m-%d")
     ]
     worksheet.append_row(new_row)
     return True
@@ -93,11 +93,11 @@ def add_chatlog(user_id, chat_id, chat):
     timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
     new_row = [
-        "timestamp": timestamp,
-        "id": str(uuid4()),
-        "user_id": user_id,
-        "chat_id": chat_id,
-        "chat": chat
+            timestamp,
+            str(uuid4()),
+            user_id,
+            chat_id,
+            chat
     ]
     worksheet.append_row(new_row)
     return True
