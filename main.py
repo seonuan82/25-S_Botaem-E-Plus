@@ -50,8 +50,13 @@ with tab1:
         try:
             recent = get_recent_records(user_id=user_id)
             if recent:
-                for r in recent:
-                    st.write(f"- {r['category']} : {r['amount']}원")
+                cat, amount = st.columns([1,2])
+                with cat:
+                    for r in recent:
+                        st.markdown(f"<h6 style='text-align: center;'>{r['category']}")</h6>, unsafe_allow_html=True) 
+                with amount:
+                    for r in recent:
+                        st.markdowm(f"<h6 style='text-align: center;'>{r['amount']}")</h6>, unsafe_allow_html=True) 
             else:
                 st.info("최근 사용 내역이 없습니다.")
         except Exception as e:
@@ -174,8 +179,19 @@ with tab3:
     try:
         all_records = get_all_records(user_id=user_id)
         if all_records:
-            for r in all_records:
-                st.write(f"- {r['date']} | {r['category']} : {r['amount']}원 ({r['note']})")
+            date, cat2, amount2, note = st.columns(4)
+            with date:
+                for r in recent:
+                    st.markdown(f"<p style='text-align: center;'>{r['date']}")</p>, unsafe_allow_html=True) 
+            with cat2:
+                for r in recent:
+                    st.markdown(f"<p style='text-align: center;'>{r['category']}")</p>, unsafe_allow_html=True) 
+            with amount2:
+                for r in recent:
+                    st.markdown(f"<p style='text-align: center;'>{r['amount']}")</p>, unsafe_allow_html=True)  
+            with note:
+                for r in recent:
+                    st.markdown(f"<p style='text-align: center;'>{r['note']}")</p>, unsafe_allow_html=True)  
         else:
             st.info("저장된 전체 내역이 없습니다.")
     except Exception as e:
@@ -196,7 +212,7 @@ with tab4:
         st.session_state.chat_rounds[st.session_state.current_chat_id] = []
 
     # 새 대화 시작 버튼
-    if st.button("대화 시작"):
+    if st.button("새 대화 시작"):
         new_id = str(uuid4())
         st.session_state.current_chat_id = new_id
         st.session_state.chat_rounds[new_id] = []
