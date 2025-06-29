@@ -7,3 +7,5 @@ openai
 matplotlib
 gspread
 oauth2client
+pillow
+pytesseract
