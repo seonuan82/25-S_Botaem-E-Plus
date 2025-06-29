@@ -94,7 +94,7 @@ with tab2:
         submitted = st.form_submit_button("입력")
     
         if submitted:
-            success = add_record(user_id=user_id, category=category, amount=amount, note=note, date=date)
+            success = add_record(id=user['id'], user_id=user['user_id'], category=category, amount=amount, note=note, date=date)
             if success:
                 st.success("사용 내역이 저장되었습니다.")
                 st.rerun()
