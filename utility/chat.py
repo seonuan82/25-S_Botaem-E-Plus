@@ -24,7 +24,7 @@ llm = ChatOpenAI(model_name="gpt-4o", temperature=0.7)  # or "gpt-4.5-turbo"
 conversation = ConversationChain(llm=llm, memory=memory)
 
 def get_today_tip():
-    response = conversation.predict(input="사용자에게 재정 팁 하나만 간단히 제공해줘.")
+    response = conversation.predict(input="사용자에게 재정 팁 하나만 한 줄로 보여줘.")
     return response
 
 def get_chat_response(message):
