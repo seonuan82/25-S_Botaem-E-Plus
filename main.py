@@ -44,7 +44,7 @@ st.subheader(f"{user['user_id']}님, 환영합니다!")
 tab1, tab2, tab3, tab4 = st.tabs(["사용 내역", "내역 추가", "전체 내역", "챗봇에게 질문"])
 
 with tab1:
-    col1, col2 = st.columns([1, 2])
+    col1, col2 = st.columns([1.2, 1.4])
 
     # 최근 사용 내역
     with col1:
@@ -99,19 +99,20 @@ with tab1:
             font_prop = fm.FontProperties(fname=font_path)
             plt.rcParams['font.family'] = font_prop.get_name()
             
-            fig, ax = plt.subplots(figsize=(2.5, 2.5))
+            fig, ax = plt.subplots(figsize=(1.6, 1.6))
 
             wedges, texts, autotexts = ax.pie(
                 sizes,
                 labels=labels,
                 autopct='%1.1f%%',
-                textprops={'fontsize': 7, 'fontproperties': font_prop}
+                textprops={'fontsize': 6, 'fontproperties': font_prop}
             )
 
             for text in texts + autotexts:
                 text.set_fontproperties(font_prop)
             
-            st.pyplot(fig, bbox_inches='tight')
+            fig.tight_layout(pad=0.5)
+            st.pyplot(fig, clear_figure=True, bbox_inches='tight')
 
         except Exception as e:
             st.error("요약 정보를 불러오는 중 오류가 발생했습니다.")
