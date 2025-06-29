@@ -30,7 +30,8 @@ if 'user' not in st.session_state:
 
 # 로그인된 사용자 정보
 user = st.session_state['user']
-user_id = user.get('user_id') or user.get('id')
+user_id = st.session_state['user']['id']
+#user_id = user.get('user_id') or user.get('id')
 
 # 로그인 후 정보 표시
 st.markdown("---")
