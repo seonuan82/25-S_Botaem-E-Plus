@@ -80,7 +80,12 @@ with tab1:
             plt.rcParams['font.family'] = font_prop.get_name()
             
             fig, ax = plt.subplots(figsize=(4, 4))
-            ax.pie(sizes, labels=labels, autopct='%1.1f%%')
+            wedges, texts, autotexts = ax.pie(
+                sizes,
+                labels=labels,
+                autopct='%1.1f%%',
+                textprops=dict(fontproperties=font_prop) if font_prop else {}
+            )
 
             if font_prop:
                 for text in texts + autotexts:
