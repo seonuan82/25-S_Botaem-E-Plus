@@ -90,20 +90,16 @@ with tab2:
         category = st.selectbox("카테고리", ["식비", "교통", "의료", "기타"])
         amount = st.number_input("금액", min_value=0)
         note = st.text_input("비고", value="")
-        date= st.date_input('사용날짜')
+        date = st.date_input("사용날짜")
         submitted = st.form_submit_button("입력")
-
+    
         if submitted:
-            try:
-                success = add_record(id=user_id, user_id=user_id, category=category, amount=amount, note=note, date=date)
-                if success:
-                    st.success("사용 내역이 저장되었습니다.")
-                    st.rerun()
-                else:
-                    st.error("저장 실패: DB에 삽입되지 않았습니다.")
-            except Exception as e:
-                st.error("예외가 발생했습니다.")
-                st.exception(e)  # ✅ 실제 에러 메시지를 화면에 보여줌
+            success = add_record(user_id=user_id, category=category, amount=amount, note=note, date=date)
+            if success:
+                st.success("사용 내역이 저장되었습니다.")
+                st.rerun()
+            else:
+                st.error("저장 실패: DB에 삽입되지 않았습니다.")
 
 with tab3:
     st.subheader("전체 사용 내역")
