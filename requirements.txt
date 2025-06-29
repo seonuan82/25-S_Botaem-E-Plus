@@ -9,4 +9,3 @@ gspread
 oauth2client
 pillow
 google-cloud-vision
-os
