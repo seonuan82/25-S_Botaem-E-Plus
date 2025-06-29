@@ -128,7 +128,7 @@ with tab2:
                     "note": ocr_note,
                     "date": ocr_date
                 }
-                st.experimental_rerun()
+                st.rerun()
 
         except Exception as e:
             if "BILLING_DISABLED" in str(e):
