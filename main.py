@@ -81,6 +81,11 @@ with tab1:
             
             fig, ax = plt.subplots(figsize=(4, 4))
             ax.pie(sizes, labels=labels, autopct='%1.1f%%')
+
+            if font_prop:
+                for text in texts + autotexts:
+                    text.set_fontproperties(font_prop)
+            
             st.pyplot(fig)
 
             used_total = sum(summary.values()) if summary else 0
