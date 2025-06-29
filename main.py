@@ -112,6 +112,7 @@ with tab1:
                 text.set_fontproperties(font_prop)
             
             st.pyplot(fig)
+            fig.tight_layout()
 
         except Exception as e:
             st.error("요약 정보를 불러오는 중 오류가 발생했습니다.")
