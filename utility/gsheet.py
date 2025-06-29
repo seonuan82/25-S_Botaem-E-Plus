@@ -98,8 +98,11 @@ def get_summary(user_id):
     for r in records:
         if r["user_id"] == user_id:
             cat = r["category"]
-            amt = int(r["amount"])
-            summary[cat] = summary.get(cat, 0) + amt
+            try:
+                amt = int(r["amount"])
+                summary[cat] = summary.get(cat, 0) + amt
+            except:
+                continue  # 잘못된 금액 형식 무시
     return summary
 
 
