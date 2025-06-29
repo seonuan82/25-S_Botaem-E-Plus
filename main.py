@@ -10,11 +10,6 @@ from utility.ocr import extract_receipt_info
 st.set_page_config(page_title="보탬 E 플러스", layout="wide")
 st.image("images/logo1.png",width=200)
 
-font_path = "fonts/NanumGothic.ttf"
-font_prop = fm.FontProperties(fname=font_path)
-plt.rcParams['font.family'] = font_prop.get_name()
-
-
 # 총 보조금 상수
 TOTAL_SUBSIDY = 5_000_000
 
@@ -80,6 +75,10 @@ with tab1:
                 labels = ['내역 없음']
                 sizes = [1]
 
+            font_path = "fonts/NanumGothic.ttf"
+            font_prop = fm.FontProperties(fname=font_path)
+            plt.rcParams['font.family'] = font_prop.get_name()
+            
             fig, ax = plt.subplots(figsize=(4, 4))
             ax.pie(sizes, labels=labels, autopct='%1.1f%%')
             st.pyplot(fig)
