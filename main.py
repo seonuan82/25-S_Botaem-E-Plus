@@ -99,7 +99,7 @@ with tab1:
             font_prop = fm.FontProperties(fname=font_path)
             plt.rcParams['font.family'] = font_prop.get_name()
             
-            fig, ax = plt.subplots(figsize=(1.6, 1.6))
+            fig, ax = plt.subplots(figsize=(3.5, 3.5))
 
             wedges, texts, autotexts = ax.pie(
                 sizes,
@@ -111,8 +111,8 @@ with tab1:
             for text in texts + autotexts:
                 text.set_fontproperties(font_prop)
             
-            fig.tight_layout(pad=0.5)
-            st.pyplot(fig, clear_figure=True, bbox_inches='tight')
+            fig.tight_layout(pad=1.0)
+            st.pyplot(fig, clear_figure=True)
 
         except Exception as e:
             st.error("요약 정보를 불러오는 중 오류가 발생했습니다.")
