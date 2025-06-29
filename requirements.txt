@@ -5,3 +5,5 @@ langchain-openai
 langchain-community
 openai
 matplotlib
+gspread
+oauth2client
