@@ -46,11 +46,16 @@ with tab1:
 
     # 최근 사용 내역
     with col1:
-        used_total = sum(summary.values()) if summary else 0
-        remaining = TOTAL_SUBSIDY - used_total
-
+        summary = get_summary(user_id=user_id)
         st.metric("총 보조금", f"{TOTAL_SUBSIDY:,}원")
-        st.metric("남은 보조금", f"{remaining:,}원")
+        
+        if summary:
+            used_total = sum(summary.values()) if summary else 0
+            remaining = TOTAL_SUBSIDY - used_total
+            st.metric("남은 보조금", f"{remaining:,}원")
+        else:
+            st.metric("남은 보조금", f"{TOTAL_SUBSIDY:,}원")
+            
         st.markdown("### 최근 사용 내역")
         try:
             recent = get_recent_records(user_id=user_id)
