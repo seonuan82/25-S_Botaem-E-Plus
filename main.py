@@ -5,6 +5,7 @@ import matplotlib.pyplot as plt
 from uuid import uuid4
 import datetime
 from utility.ocr import extract_receipt_info
+import os
 
 st.set_page_config(page_title="보탬 E 플러스", layout="wide")
 st.image("images/logo1.png")
