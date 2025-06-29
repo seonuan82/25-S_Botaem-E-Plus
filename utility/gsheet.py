@@ -28,7 +28,7 @@ def login_user(user_id: str, password: str):
 
     # 신규 사용자 등록
     new_user = {
-        "timestamp": datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        "timestamp": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
         "id": str(uuid4()),
         "user_id": user_id,
         "password": password
@@ -42,7 +42,7 @@ def add_record(user_id, category, amount, note, date):
     sheet = init_sheet()
     worksheet = sheet.worksheet("use")
     new_row = [
-        "timestamp": datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        "timestamp": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
         "id": str(uuid4()),
         "user_id": user_id,
         "category": category,
@@ -88,7 +88,7 @@ def add_chatlog(user_id, chat_id, chat):
     sheet = init_sheet()
     worksheet = sheet.worksheet("chat")
     new_row = [
-        "timestamp": datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        "timestamp": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
         "id": str(uuid4()),
         "user_id": user_id,
         "chat_id": chat_id,
