@@ -7,7 +7,7 @@ from google.oauth2 import service_account
 @st.cache_resource
 def init_vision_client():
     credentials = service_account.Credentials.from_service_account_info(
-        st.secrets["gcp_service_account"]
+        st.secrets["gsheet"]
     )
     return vision.ImageAnnotatorClient(credentials=credentials)
 
