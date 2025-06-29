@@ -63,7 +63,7 @@ with tab1:
                 cat, amount = st.columns([1,2])
                 with cat:
                     for r in recent:
-                        st.markdown(f"<h6 style='text-align: center;'>{r['category']:,}</h6>", unsafe_allow_html=True) 
+                        st.markdown(f"<h6 style='text-align: center;'>{r['category']}</h6>", unsafe_allow_html=True) 
                 with amount:
                     for r in recent:
                         st.markdown(f"<h6 style='text-align: center;'>{r['amount']:,}</h6>", unsafe_allow_html=True) 
