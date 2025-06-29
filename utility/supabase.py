@@ -59,7 +59,7 @@ def get_all_records(user_id):
 
 def add_record(id, user_id, category, amount, note, date):
     new_record = {
-        "id": id,     # 레코드 고유 UUID
+        "id": str(uuid4()),     # 레코드 고유 UUID
         "user_id": user_id,     # UUID (users.id)
         "category": category,
         "amount": amount,
