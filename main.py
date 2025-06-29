@@ -23,7 +23,6 @@ if 'user' not in st.session_state:
             if success:
                 st.session_state['user'] = user
                 st.success("로그인에 성공했습니다!")
-                st.experimental_rerun()
             else:
                 st.error("아이디 또는 비밀번호가 잘못되었습니다.")
     st.stop()
@@ -95,7 +94,7 @@ with tab2:
             # Supabase에 저장 로직
             # 성공 메시지 출력 등
             st.success("사용 내역이 저장되었습니다.")
-            st.experimental_rerun()
+            st.rerun()
 
     # 챗봇 기능
     if st.button("챗봇 시작하기"):
