@@ -95,7 +95,7 @@ with tab2:
 
         if submitted:
             try:
-                success = add_record(user_id=user_id, category=category, amount=amount, note=note, record_date=record_date)
+                success = add_record(user_id=user_id, category=category, amount=amount, note=note, date=date)
                 if success:
                     st.success("사용 내역이 저장되었습니다.")
                     st.rerun()
