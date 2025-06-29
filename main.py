@@ -219,6 +219,9 @@ with tab4:
     if "current_chat_id" not in st.session_state:
         st.session_state.current_chat_id = str(uuid4())
         st.session_state.chat_rounds[st.session_state.current_chat_id] = []
+        st.markdown("버튼을 누르고 태미와의 대화를 시작해보세요.")
+    else:
+        st.markdown("태미가 준비되었어요. 질문해주세요!")
 
     # 새 대화 시작 버튼
     if st.button("새 대화 시작"):
