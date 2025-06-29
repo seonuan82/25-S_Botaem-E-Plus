@@ -105,14 +105,13 @@ with tab1:
                 sizes,
                 labels=labels,
                 autopct='%1.1f%%',
-                textprops={'fontsize': 8, 'fontproperties': font_prop}
+                textprops={'fontsize': 7, 'fontproperties': font_prop}
             )
 
             for text in texts + autotexts:
                 text.set_fontproperties(font_prop)
             
-            st.pyplot(fig)
-            fig.tight_layout()
+            st.pyplot(fig, bbox_inches='tight')
 
         except Exception as e:
             st.error("요약 정보를 불러오는 중 오류가 발생했습니다.")
