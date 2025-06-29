@@ -55,7 +55,10 @@ with tab1:
             st.metric("남은 보조금", f"{remaining:,}원")
         else:
             st.metric("남은 보조금", f"{TOTAL_SUBSIDY:,}원")
-            
+
+        st.markdown(" ")
+        st.markdown("---")
+        
         st.markdown("### 최근 사용 내역")
         try:
             recent = get_recent_records(user_id=user_id)
@@ -94,12 +97,13 @@ with tab1:
             font_prop = fm.FontProperties(fname=font_path)
             plt.rcParams['font.family'] = font_prop.get_name()
             
-            fig, ax = plt.subplots(figsize=(4, 4))
+            fig, ax = plt.subplots(figsize=(2.5, 2.5))
+
             wedges, texts, autotexts = ax.pie(
                 sizes,
                 labels=labels,
                 autopct='%1.1f%%',
-                textprops={'fontproperties': font_prop}
+                textprops={'fontsize': 8, 'fontproperties': font_prop}
             )
 
             for text in texts + autotexts:
