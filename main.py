@@ -129,6 +129,9 @@ with tab2:
             # OCR 입력용 별도 폼 사용
             with st.form("ocr_entry_form"):
                 category = st.selectbox("보조비목", ["인건비", "운영비", "여비", "업무 추진비", "직무 수행 경비", "연구개발비","보전금", "민간이전", "출연금","토지매입비","건설비", "유형 자산","무형 자산","예탁금","정산금","상환"], key="ocr_category")
+                note = st.text_input("비고", value=ocr_note, key="ocr_note_input")
+                amount = st.number_input("금액", value=ocr_amount, key="ocr_amount_input")
+                date = st.date_input("사용날짜", value=ocr_date, key="ocr_date_input")
                 submit_ocr = st.form_submit_button("이 내용으로 자동 채우기")
 
                 if submit_ocr:
@@ -189,7 +192,7 @@ with tab4:
 
     # 입력창
     input_key = f"chat_input_{chat_id}"
-    user_message = st.text_input("네오에게 질문해보세요", key=input_key)
+    user_message = st.text_input("네오에게 질문해보세요.", key=input_key)
     
     if user_message:
         try:
