@@ -63,10 +63,19 @@ def add_record(user_id, category, amount, note):
         UUID(str(user_id))
     except ValueError:
         raise ValueError("❌ user_id는 UUID 형식이어야 합니다.")
+        return 'ID ERROR'
 
-    conn.table("records").insert({
+    new_record = {
+        "id" = str(uuid4()),
         "user_id": user_id,
         "category": category,
         "amount": amount,
         "note": note or ""
-    }).execute()
+    }
+
+    try:
+        insert_new_record = conn.table("records").insert(new_record).execute()
+        return True
+    except Exception as e:
+        print("❌ 삽입 실패:", e)
+        return False
