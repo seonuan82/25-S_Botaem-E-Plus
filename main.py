@@ -45,7 +45,12 @@ with tab1:
     col1, col2 = st.columns([1, 2])
 
     # 최근 사용 내역
-    with col1:
+        with col1:
+        used_total = sum(summary.values()) if summary else 0
+        remaining = TOTAL_SUBSIDY - used_total
+
+        st.metric("총 보조금", f"{TOTAL_SUBSIDY:,}원")
+        st.metric("남은 보조금", f"{remaining:,}원")
         st.markdown("### 최근 사용 내역")
         try:
             recent = get_recent_records(user_id=user_id)
@@ -53,10 +58,10 @@ with tab1:
                 cat, amount = st.columns([1,2])
                 with cat:
                     for r in recent:
-                        st.markdown(f"<h6 style='text-align: center;'>{r['category']}</h6>", unsafe_allow_html=True) 
+                        st.markdown(f"<h6 style='text-align: center;'>{r['category']:,}</h6>", unsafe_allow_html=True) 
                 with amount:
                     for r in recent:
-                        st.markdown(f"<h6 style='text-align: center;'>{r['amount']}</h6>", unsafe_allow_html=True) 
+                        st.markdown(f"<h6 style='text-align: center;'>{r['amount']:,}</h6>", unsafe_allow_html=True) 
             else:
                 st.info("최근 사용 내역이 없습니다.")
         except Exception as e:
@@ -97,11 +102,6 @@ with tab1:
             
             st.pyplot(fig)
 
-            used_total = sum(summary.values()) if summary else 0
-            remaining = TOTAL_SUBSIDY - used_total
-
-            st.metric("총 보조금", f"{TOTAL_SUBSIDY:,}원")
-            st.metric("남은 보조금", f"{remaining:,}원")
         except Exception as e:
             st.error("요약 정보를 불러오는 중 오류가 발생했습니다.")
             st.exception(e)
@@ -139,7 +139,7 @@ with tab2:
         try:
             ocr_amount, ocr_date, ocr_note, ocr_text = extract_receipt_info(uploaded_image)
             st.success("OCR 성공: 자동 추출된 정보")
-            st.write(f"금액: {ocr_amount}원")
+            st.write(f"금액: {ocr_amount:,}원")
             st.write(f"날짜: {ocr_date}")
             st.write(f"비고: {ocr_note}")
             with st.expander("OCR 전체 텍스트 보기"):
@@ -188,7 +188,7 @@ with tab3:
                     st.markdown(f"<p style='text-align: center;'>{r['category']}</p>", unsafe_allow_html=True) 
             with amount2:
                 for r in recent:
-                    st.markdown(f"<p style='text-align: center;'>{r['amount']}</p>", unsafe_allow_html=True)  
+                    st.markdown(f"<p style='text-align: center;'>{r['amount']:,}</p>", unsafe_allow_html=True)  
             with note:
                 for r in recent:
                     st.markdown(f"<p style='text-align: center;'>{r['note']}</p>", unsafe_allow_html=True)  
