@@ -9,7 +9,7 @@ from utility.ocr import extract_receipt_info
 st.set_page_config(page_title="보탬 E 플러스", layout="wide")
 st.image("utility/logo1.png")
 
-font_path = os.path.join("fonts", "NotoSansKR-Regular.ttf")
+font_path = os.path.join("fonts", "NotoSansKR-Bold.ttf")
 font_prop = fm.FontProperties(fname=font_path)
 plt.rcParams['font.family'] = font_prop.get_name()
 
@@ -79,8 +79,7 @@ with tab1:
                 labels = ['내역 없음']
                 sizes = [1]
                 
-            plt.rcParams['font.family'] ='Malgun Gothic'
-            fig, ax = plt.subplots(figsize=(4, 4))
+            fig, ax = plt.subplots(figsize=(2, 2))
             ax.pie(sizes, labels=labels, autopct='%1.1f%%')
             st.pyplot(fig)
 
