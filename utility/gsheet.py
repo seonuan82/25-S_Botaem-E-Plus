@@ -6,9 +6,9 @@ from datetime import datetime
 
 
 def init_sheet():
-    scope = ["https://spreadsheets.google.com/feeds", "https://www.googleapis.com/auth/drive"]
+    scope = ["https://www.googleapis.com/auth/drive"]
     credentials = ServiceAccountCredentials.from_json_keyfile_dict(
-        st.secrets['gsheet'], scope
+        st.secrets[gsheet], scope
     )
     client = gspread.authorize(credentials)
     return client.open_by_url('https://docs.google.com/spreadsheets/d/1xcDDzaS5rk3jhXbU3215XXYlF2vK9-LTwKqS96f6yq4/edit?gid=0#gid=0') 
