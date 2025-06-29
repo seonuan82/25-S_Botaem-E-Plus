@@ -7,10 +7,15 @@ import datetime
 from utility.ocr import extract_receipt_info
 
 st.set_page_config(page_title="보탬 E 플러스", layout="wide")
-st.title("보탬 E 플러스")
+st.image("utility/logo1.png")
+
+font_path = os.path.join("fonts", "NotoSansKR-Regular.ttf")
+font_prop = fm.FontProperties(fname=font_path)
+plt.rcParams['font.family'] = font_prop.get_name()
+
 
 # 총 보조금 상수
-TOTAL_SUBSIDY = 500_000
+TOTAL_SUBSIDY = 5_000_000
 
 # --- 로그인 상태 확인 ---
 if 'user' not in st.session_state:
