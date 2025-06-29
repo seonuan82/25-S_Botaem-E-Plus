@@ -21,9 +21,8 @@ if 'user' not in st.session_state:
         submitted = st.form_submit_button("로그인")
 
         if submitted:
-            success, user = login_user(user_id_input, password)
+            success, user = login_user(user_id, password)
             if success:
-                user['name'] = user_id_input
                 st.session_state['user'] = user
                 st.success("로그인에 성공했습니다!")
                 st.rerun()
@@ -34,12 +33,10 @@ if 'user' not in st.session_state:
 # 로그인된 사용자 정보
 user = st.session_state['user']
 user_id = user['id']
-user_name = user['name']
-
 
 # 로그인 후 정보 표시
 st.markdown("---")
-st.subheader(f"{user['user_name']}님, 환영합니다!")
+st.subheader(f"{user['user_id']}님, 환영합니다!")
 
 tab1, tab2, tab3, tab4 = st.tabs(["사용 내역", "내역 추가", "전체 내역", "챗봇에게 질문"])
 
