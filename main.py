@@ -9,6 +9,7 @@ from utility.ocr import extract_receipt_info
 
 st.set_page_config(page_title="보탬 E 플러스", layout="wide")
 st.image("images/logo1.png",width=200)
+st.write(plt.rcParams["font.sans-serif"][:])
 
 font_path = "/fonts/NotoSansKR-Bold.ttf"
 font_prop = fm.FontProperties(fname=font_path)
