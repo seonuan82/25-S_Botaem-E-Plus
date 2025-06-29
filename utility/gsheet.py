@@ -28,6 +28,7 @@ def login_user(user_id: str, password: str):
 
     # 신규 사용자 등록
     new_user = {
+        "timestamp": datetime.now().strftime("%Y-%m-%d %H:%M:%S")
         "id": str(uuid4()),
         "user_id": user_id,
         "password": password
