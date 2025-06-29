@@ -16,7 +16,7 @@ def init_sheet():
 
 def login_user(user_id: str, password: str):
     sheet = init_sheet()
-    worksheet = sheet.worksheet("user")
+    worksheet = sheet.worksheet("id")
     users = worksheet.get_all_records()
     timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
