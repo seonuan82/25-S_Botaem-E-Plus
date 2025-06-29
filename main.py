@@ -1,5 +1,5 @@
 import streamlit as st
-from utility.supabase import login_user, get_recent_records, get_summary, add_record, get_all_records
+from utility.gsheet import login_user, get_recent_records, get_summary, add_record, get_all_records
 from utility.chat import get_today_tip
 import matplotlib.pyplot as plt
 from uuid import uuid4
