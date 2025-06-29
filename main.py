@@ -189,7 +189,6 @@ with tab4:
         st.session_state.chat_rounds[new_id] = []
 
     chat_id = st.session_state.current_chat_id
-    st.markdown(f"**현재 대화 ID:** `{chat_id}`")
 
     # 입력창
     input_key = f"chat_input_{chat_id}"
