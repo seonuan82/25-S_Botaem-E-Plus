@@ -21,18 +21,21 @@ def login_user(user_id: str, password: str):
     timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
     for user in users:
-        if user["user_id"] == user_id:
-            if user["password"] == password:
+        stored_id = str(user.get("id", "")).strip()
+        stored_pw = str(user.get("password", "")).strip()
+
+        if stored_id == user_id.strip():
+            if stored_pw == password.strip():
                 return True, user
             else:
                 return False, None
 
-    # 신규 사용자 등록
+    # 새 사용자 등록
     new_user = {
         "timestamp": timestamp,
-        "id": str(uuid4()),
-        "user_id": user_id,
-        "password": password
+        "id": user_id.strip(),
+        "user_id": "",  # 필요시 사용자 이름 등으로 채우세요
+        "password": password.strip()
     }
     worksheet.append_row(list(new_user.values()))
     return True, new_user
