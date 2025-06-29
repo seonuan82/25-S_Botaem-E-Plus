@@ -1,6 +1,6 @@
 import streamlit as st
-from utility.gsheet import login_user, get_recent_records, get_summary, add_record, get_all_records
-from utility.chat import get_today_tip, get_chat_response, get_chat_history, add_chatlog
+from utility.gsheet import login_user, get_recent_records, get_summary, add_chatlog, get_all_records
+from utility.chat import get_today_tip, get_chat_response, get_chat_history
 import matplotlib.pyplot as plt
 from uuid import uuid4
 import datetime
