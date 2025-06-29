@@ -56,19 +56,19 @@ def get_summary(user_id):
 def get_all_records(user_id):
     return conn.table("records").select("*").eq("user_id", user_id).execute().data
 
-def add_record(id, user_id, category, amount, note, date):
+def add_record(user_id, category, amount, note, date):
     new_record = {
-        "id": id,
-        "user_id": user_id,
+        "id": str(uuid4()),     # 레코드 고유 UUID
+        "user_id": user_id,     # UUID (users.id)
         "category": category,
         "amount": amount,
-        "note": note or "",
+        "note": note,
         "date": date
     }
 
     try:
-        insert_new_record = conn.table("records").insert(new_record).execute()
+        conn.table("records").insert(new_record).execute()
         return True
     except Exception as e:
-        print("❌ 삽입 실패:", e)
+        print("❌ 레코드 삽입 실패:", e)
         return False
