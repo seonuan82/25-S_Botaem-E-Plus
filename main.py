@@ -2,13 +2,14 @@ import streamlit as st
 from utility.gsheet import login_user, get_recent_records, get_summary, add_chatlog, get_all_records, add_record
 from utility.chat import get_today_tip, get_chat_response, get_chat_history
 import matplotlib.pyplot as plt
+import matplotlib.font_manager as fm
 from uuid import uuid4
 import datetime
 from utility.ocr import extract_receipt_info
 import os
 
 st.set_page_config(page_title="보탬 E 플러스", layout="wide")
-st.image("images/logo1.png")
+st.logo("images/logo1.png",)
 
 font_path = os.path.join("fonts", "NotoSansKR-Bold.ttf")
 font_prop = fm.FontProperties(fname=font_path)
@@ -42,7 +43,7 @@ user_id = user['id']
 
 # 로그인 후 정보 표시
 st.markdown("---")
-st.image("images/logo1.png")
+st.logo("images/logo1.png")
 st.subheader(f"{user['user_id']}님, 환영합니다!")
 
 tab1, tab2, tab3, tab4 = st.tabs(["사용 내역", "내역 추가", "전체 내역", "챗봇에게 질문"])
