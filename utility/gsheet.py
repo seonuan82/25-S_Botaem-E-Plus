@@ -117,11 +117,11 @@ def add_chatlog(user_id, chat_id, chat):
     timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
     new_row = [
-            timestamp,
-            str(uuid4()),
-            user_id,
-            chat_id,
-            chat
+        timestamp,
+        str(uuid4()),
+        user_id,
+        chat_id,
+        chat
     ]
     worksheet.append_row(new_row)
     return True
