@@ -20,15 +20,36 @@ def login_user(user_id: str, password: str):
     users = worksheet.get_all_records()
     timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
+    input_user_id = user_id.strip()
+    input_pw = password.strip()
+
     for user in users:
-        stored_id = str(user.get("user_id", "")).strip()
+        stored_user_id = str(user.get("user_id", "")).strip()
         stored_pw = str(user.get("password", "")).strip()
 
-        if stored_id == user_id.strip():
-            if stored_pw == password.strip():
+        if stored_user_id == input_user_id:
+            if stored_pw == input_pw:
                 return True, user
             else:
                 return False, None
+
+    # 사용자 ID가 없으면 새 사용자 등록
+    new_user = {
+        "timestamp": timestamp,
+        "id": str(uuid4()),             # ✅ UUID가 'id' 열에 들어감
+        "user_id": input_user_id,       # ✅ 사용자 입력 ID가 'user_id' 열에
+        "password": input_pw
+    }
+
+    # 헤더 순서대로 값 삽입
+    worksheet.append_row([
+        new_user["timestamp"],
+        new_user["id"],
+        new_user["user_id"],
+        new_user["password"]
+    ])
+
+    return True, new_user
 
     # 새 사용자 등록
     new_user = {
