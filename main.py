@@ -166,67 +166,91 @@ with tab3:
         st.exception(e)
 
 with tab4:
-    st.subheader("챗봇 '네오'와 대화하기")
-    
-    # 세션 초기화
+    st.subheader("챗봇 '태미'와 대화하기")
+
+    # 세션 상태 초기화
     if "chat_rounds" not in st.session_state:
         st.session_state.chat_rounds = {}
-    
+
     if "current_chat_id" not in st.session_state:
         st.session_state.current_chat_id = str(uuid4())
-    
-    # 새로운 대화 시작 버튼
-    if st.button("🆕 새로운 대화 시작"):
+        st.session_state.chat_rounds[st.session_state.current_chat_id] = []
+
+    # 새 대화 시작 버튼
+    if st.button("대화 시작"):
         new_id = str(uuid4())
         st.session_state.current_chat_id = new_id
         st.session_state.chat_rounds[new_id] = []
-    
-    # 대화 목록에서 선택
-    chat_ids = list(st.session_state.chat_rounds.keys())[::-1]  # 최신 순 정렬
-    selected_chat_id = st.selectbox(
-        "📜 이전 대화 선택",
-        options=chat_ids,
-        format_func=lambda cid: f"대화 ID {cid[:8]}...",
-        index=0
-    )
-    
+
     chat_id = st.session_state.current_chat_id
     st.markdown(f"**현재 대화 ID:** `{chat_id}`")
-    
-    # 채팅 입력
+
+    # 입력창
     input_key = f"chat_input_{chat_id}"
-    user_message = st.text_input("네오에게 질문해보세요", key=input_key)
-    
+    user_message = st.text_input("태미에게 질문해보세요", key=input_key)
+
+    # 입력 처리
     if user_message:
         try:
             bot_response = get_chat_response(user_message)
-    
-            # 대화 초기화
-            if chat_id not in st.session_state.chat_rounds:
-                st.session_state.chat_rounds[chat_id] = []
-    
+
             st.session_state.chat_rounds[chat_id].append((user_message, bot_response))
-    
+
             add_chatlog(str(user_id), str(chat_id), f"User: {user_message}")
             add_chatlog(str(user_id), str(chat_id), f"Neo: {bot_response}")
-    
+
             st.session_state[input_key] = ""
             st.rerun()
-    
+
         except Exception as e:
             st.error("대화 중 오류가 발생했습니다.")
             st.exception(e)
+
+    # 현재 대화 출력
+    st.markdown("---")  
+    logs = st.session_state.chat_rounds.get(chat_id, [])
     
-    # 대화 로그 표시
-    st.markdown("---")
-    st.markdown(f"**🕓 선택한 대화 기록 (ID {selected_chat_id[:8]}...)**")
-    
-    logs = st.session_state.chat_rounds.get(selected_chat_id, [])
     if logs:
+        chat_html = """
+            <div style="max-height: 400px; overflow-y: auto; padding: 10px;">
+            <style>
+            .bubble-user {
+                background-color: #DCF8C6;
+                padding: 10px;
+                border-radius: 10px;
+                margin-bottom: 8px;
+                max-width: 75%;
+                text-align: left;
+                margin-left: auto;
+            }
+            .bubble-agent {
+                background-color: #ABCDDE;
+                padding: 10px;
+                border-radius: 10px;
+                margin-bottom: 8px;
+                max-width: 75%;
+                text-align: left;
+                margin-right: auto;
+            }
+            </style>
+        """
+    
         for q, a in logs:
-            st.markdown(f"**🧑‍💬 질문:** {q}")
-            st.markdown(f"**🤖 Neo:** {a}")
+            chat_html += f"""
+            <div class="bubble-user">
+                <b>You:</b> {q}
+            </div>
+            <div class="bubble-agent">
+                <b>Neo:</b> {a}
+            </div>
+            """
+    
+        chat_html += "</div>"
+    
+        import streamlit.components.v1 as components
+        components.html(chat_html, height=420, scrolling=False)
+    
     else:
-        st.info("선택한 대화에는 기록이 없습니다.")
+        st.markdown("_아직 대화가 없습니다. 태미에게 말을 걸어보세요!_")
 
 
