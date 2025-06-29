@@ -57,4 +57,16 @@ def get_all_records(user_id):
     return conn.table("records").select("*").eq("user_id", user_id).execute().data
 
 def add_record(user_id, category, amount, note):
-    conn.table("records").insert({"user_id": user_id, "category": category, "amount": amount, "note": note}).execute()
+    from uuid import UUID
+    try:
+        # UUID 형식 확인
+        UUID(str(user_id))
+    except ValueError:
+        raise ValueError("❌ user_id는 UUID 형식이어야 합니다.")
+
+    conn.table("records").insert({
+        "user_id": user_id,
+        "category": category,
+        "amount": amount,
+        "note": note or ""
+    }).execute()
