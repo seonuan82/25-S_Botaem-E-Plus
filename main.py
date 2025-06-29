@@ -84,12 +84,11 @@ with tab1:
                 sizes,
                 labels=labels,
                 autopct='%1.1f%%',
-                textprops=dict(fontproperties=font_prop) if font_prop else {}
+                textprops={'fontproperties': font_prop}
             )
 
-            if font_prop:
-                for text in texts + autotexts:
-                    text.set_fontproperties(font_prop)
+            for text in texts + autotexts:
+                text.set_fontproperties(font_prop)
             
             st.pyplot(fig)
 
