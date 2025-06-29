@@ -36,8 +36,8 @@ def login_user(user_id: str, password: str):
     # 사용자 ID가 없으면 새 사용자 등록
     new_user = {
         "timestamp": timestamp,
-        "id": str(uuid4()),             # ✅ UUID가 'id' 열에 들어감
-        "user_id": input_user_id,       # ✅ 사용자 입력 ID가 'user_id' 열에
+        "id": str(uuid4()),            
+        "user_id": input_user_id,      
         "password": input_pw
     }
 
@@ -79,7 +79,6 @@ def add_record(user_id, category, amount, note, date):
     ]
     worksheet.append_row(new_row)
     return True
-
 
 
 def get_recent_records(user_id):
