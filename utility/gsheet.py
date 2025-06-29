@@ -33,8 +33,8 @@ def login_user(user_id: str, password: str):
     # 새 사용자 등록
     new_user = {
         "timestamp": timestamp,
-        "id": user_id.strip(),
-        "user_id": "",  # 필요시 사용자 이름 등으로 채우세요
+        "id": str(uuid4()),
+        "user_id": user_id.strip(),  # 필요시 사용자 이름 등으로 채우세요
         "password": password.strip()
     }
     worksheet.append_row(list(new_user.values()))
