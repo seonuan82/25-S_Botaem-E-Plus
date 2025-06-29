@@ -73,8 +73,9 @@ with tab1:
                 # 데이터가 없을 경우 기본 파이차트 데이터
                 labels = ['내역 없음']
                 sizes = [1]
-
-            fig, ax = plt.subplots()
+                
+            plt.rcParams['font.family'] ='Malgun Gothic'
+            fig, ax = plt.subplots(figsize=(4, 4))
             ax.pie(sizes, labels=labels, autopct='%1.1f%%')
             st.pyplot(fig)
 
