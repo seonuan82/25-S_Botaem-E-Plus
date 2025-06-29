@@ -24,11 +24,8 @@ llm = ChatOpenAI(model_name="gpt-4o", temperature=0.7)  # or "gpt-4.5-turbo"
 conversation = ConversationChain(llm=llm, memory=memory)
 
 def get_today_tip():
-    response = openai.ChatCompletion.create(
-        model="gpt-4o",
-        messages=[{"role": "system", "content": "사용자에게 재정 팁 하나만 간단히 제공해줘."}]
-    )
-    return response.choices[0].message['content']
+    response = conversation.predict(input="사용자에게 재정 팁 하나만 간단히 제공해줘.")
+    return response
 
 def get_chat_response(message):
     full_prompt = CHAT_PROMPT.strip() + "\n\nuser question: " + message
