@@ -221,7 +221,7 @@ with tab4:
 
     # 입력창
     input_key = f"chat_input_{chat_id}"
-    user_message = st.text_input("태미미에게 질문해보세요.", key=input_key)
+    user_message = st.text_input("태미에게 질문해보세요.", key=input_key)
     
     if user_message:
         try:
