@@ -4,10 +4,10 @@ from uuid import uuid4
 from datetime import datetime
 
 scope = ["https://spreadsheets.google.com/feeds", "https://www.googleapis.com/auth/drive"]
-credentials = ServiceAccountCredentials.from_json_keyfile_name("credentials.json", scope)
+credentials = ServiceAccountCredentials.from_json_keyfile_dict(
+        st.secrets['gsheet'], scope
+    )
 client = gspread.authorize(credentials)
-
-sheet = client.open("보탬E플러스")
 
 def login_user(user_id: str, password: str):
     worksheet = sheet.worksheet("id")
