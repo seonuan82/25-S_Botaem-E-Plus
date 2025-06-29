@@ -42,12 +42,13 @@ def add_record(user_id, category, amount, note, date):
     sheet = init_sheet()
     worksheet = sheet.worksheet("use")
     new_row = [
-        str(uuid4()),
-        user_id,
-        category,
-        amount,
-        note,
-        date.strftime("%Y-%m-%d")
+        "timestamp": datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        "id": str(uuid4()),
+        "user_id": user_id,
+        "category": category,
+        "amount": amount,
+        "note": note,
+        "date": date.strftime("%Y-%m-%d")
     ]
     worksheet.append_row(new_row)
     return True
@@ -81,3 +82,17 @@ def get_all_records(user_id):
     worksheet = sheet.worksheet("use")
     records = worksheet.get_all_records()
     return [r for r in records if r["user_id"] == user_id]
+
+
+def add_chatlog(user_id, chat_id, chat):
+    sheet = init_sheet()
+    worksheet = sheet.worksheet("chat")
+    new_row = [
+        "timestamp": datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        "id": str(uuid4()),
+        "user_id": user_id,
+        "chat_id": chat_id,
+        "chat": chat
+    ]
+    worksheet.append_row(new_row)
+    return True
