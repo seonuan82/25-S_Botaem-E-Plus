@@ -92,7 +92,7 @@ with tab2:
     st.subheader("새 사용 내역 입력")
 
     with st.form("manual_entry_form"):  # 폼 이름 변경
-        category = st.selectbox("카테고리", ["식비", "교통", "의료", "기타"])
+        category = st.selectbox("보조비목", ["인건비", "운영비", "여비", "업무 추진비", "직무 수행 경비", "연구개발비","보전금", "민간이전", "출연금","토지매입비","건설비", "유형 자산","무형 자산","예탁금","정산금","상환"])
         amount = st.number_input("금액", min_value=0)
         note = st.text_input("비고", value="")
         date = st.date_input("사용날짜")
@@ -128,7 +128,7 @@ with tab2:
 
             # OCR 입력용 별도 폼 사용
             with st.form("ocr_entry_form"):
-                category = st.selectbox("카테고리", ["식비", "교통", "의료", "기타"], key="ocr_category")
+                category = st.selectbox("보조비목", ["인건비", "운영비", "여비", "업무 추진비", "직무 수행 경비", "연구개발비","보전금", "민간이전", "출연금","토지매입비","건설비", "유형 자산","무형 자산","예탁금","정산금","상환"], key="ocr_category")
                 submit_ocr = st.form_submit_button("이 내용으로 자동 채우기")
 
                 if submit_ocr:
