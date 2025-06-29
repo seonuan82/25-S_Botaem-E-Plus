@@ -57,7 +57,7 @@ def get_summary(user_id):
 def get_all_records(user_id):
     return conn.table("records").select("*").eq("user_id", user_id).execute().data
 
-def add_record(id, user_id, category, amount, note, date):
+def add_record(user_id, category, amount, note, date):
     new_record = {
         "id": str(uuid4()),     # 레코드 고유 UUID
         "user_id": user_id,     # UUID (users.id)
