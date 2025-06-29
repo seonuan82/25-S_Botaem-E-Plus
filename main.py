@@ -87,10 +87,11 @@ with tab1:
             st.error("요약 정보를 불러오는 중 오류가 발생했습니다.")
             st.exception(e)
 
+
 with tab2:
     st.subheader("새 사용 내역 입력")
 
-    with st.form("entry_form"):
+    with st.form("manual_entry_form"):  # 폼 이름 변경
         category = st.selectbox("카테고리", ["식비", "교통", "의료", "기타"])
         amount = st.number_input("금액", min_value=0)
         note = st.text_input("비고", value="")
@@ -124,22 +125,25 @@ with tab2:
             st.write(f"비고: {ocr_note}")
             with st.expander("OCR 전체 텍스트 보기"):
                 st.code(ocr_text)
-        with st.form("entry_form"):
-            category = st.selectbox("카테고리", ["식비", "교통", "의료", "기타"])    
-            
-            if st.button("이 내용으로 자동 채우기"):
-                success = add_record(
-                user_id=user_id,
-                category=category,
-                amount=ocr_amount,
-                note=ocr_note,
-                date=ocr_date
-                )
-                if success:
-                    st.success("사용 내역이 저장되었습니다.")
-                    st.rerun()
-                else:
-                    st.error("저장 실패: DB에 삽입되지 않았습니다.")
+
+            # OCR 입력용 별도 폼 사용
+            with st.form("ocr_entry_form"):
+                category = st.selectbox("카테고리", ["식비", "교통", "의료", "기타"], key="ocr_category")
+                submit_ocr = st.form_submit_button("이 내용으로 자동 채우기")
+
+                if submit_ocr:
+                    success = add_record(
+                        user_id=user_id,
+                        category=category,
+                        amount=ocr_amount,
+                        note=ocr_note,
+                        date=ocr_date
+                    )
+                    if success:
+                        st.success("OCR 정보가 저장되었습니다.")
+                        st.rerun()
+                    else:
+                        st.error("저장 실패: DB에 삽입되지 않았습니다.")
 
         except Exception as e:
             if "BILLING_DISABLED" in str(e):
