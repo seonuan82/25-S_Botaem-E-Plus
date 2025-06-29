@@ -95,14 +95,15 @@ with tab2:
 
         if submitted:
             try:
-                check = add_record(user_id=user_id, category=category, amount=amount, note=note, date=date)
-                if check == True: st.success("사용 내역이 저장되었습니다.")
-                elif check == False: st.error("저장 실패")
-                else: st.error("id 오류")
-                st.rerun()
+                success = add_record(user_id=user_id, category=category, amount=amount, note=note, record_date=record_date)
+                if success:
+                    st.success("사용 내역이 저장되었습니다.")
+                    st.rerun()
+                else:
+                    st.error("저장 실패: DB에 삽입되지 않았습니다.")
             except Exception as e:
-                st.error("저장에 실패했습니다.")
-                st.exception(e)
+                st.error("예외가 발생했습니다.")
+                st.exception(e)  # ✅ 실제 에러 메시지를 화면에 보여줌
 
 with tab3:
     st.subheader("전체 사용 내역")
