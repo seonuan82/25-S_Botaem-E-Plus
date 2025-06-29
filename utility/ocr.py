@@ -32,7 +32,7 @@ def extract_receipt_info(image_file):
 
     annotations = response.text_annotations
     if not annotations:
-        raise ValueError("No text detected in image.")
+        raise ValueError("이미지 내에서 텍스트가 확인되지 않습니다.")
 
     full_text = annotations[0].description  # Full OCR text as string
 
