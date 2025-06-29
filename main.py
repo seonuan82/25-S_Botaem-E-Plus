@@ -12,8 +12,17 @@ st.set_page_config(page_title="보탬 E 플러스", layout="wide")
 st.logo("images/logo1.png",)
 
 font_path = os.path.join("fonts", "NotoSansKR-Bold.ttf")
-font_prop = fm.FontProperties(fname=font_path)
-plt.rcParams['font.family'] = font_prop.get_name()
+
+if not os.path.exists(font_path):
+    st.error(f"폰트 파일을 찾을 수 없습니다: {font_path}")
+else:
+    try:
+        font_prop = fm.FontProperties(fname=font_path)
+        plt.rcParams['font.family'] = font_prop.get_name()
+    except Exception as e:
+        st.error("폰트 로딩 중 오류가 발생했습니다.")
+        st.exception(e)
+        plt.rcParams['font.family'] = 'DejaVu Sans'
 
 
 # 총 보조금 상수
