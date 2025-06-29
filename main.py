@@ -183,17 +183,29 @@ with tab4:
 
     # 사용자 입력
     user_message = st.text_input("네오에게 질문해보세요", key=f"chat_input_{chat_id}")
+
     if user_message:
         try:
-            # 여기에서 chat 응답을 생성 (모듈별로 get_today_tip 또는 자체 응답 함수)
-            from utility.chat import get_today_tip  # 예시
+            # 네오 응답 생성
             bot_response = get_chat_response(user_message)
-
-            # 로그 저장
+    
+            # 대화 라운드 초기화가 안 되어 있다면 생성
+            if chat_id not in st.session_state.chat_rounds:
+                st.session_state.chat_rounds[chat_id] = []
+    
+            # 메모리에 저장
             st.session_state.chat_rounds[chat_id].append((user_message, bot_response))
-            add_chatlog(user_id, chat_id, f"User: {user_message}")
-            add_chatlog(user_id, chat_id, f"Neo: {bot_response}")
+    
+            # 구글 시트에 저장
+            try:
+                add_chatlog(str(user_id), str(chat_id), f"User: {user_message}")
+                add_chatlog(str(user_id), str(chat_id), f"Neo: {bot_response}")
+            except Exception as log_error:
+                st.warning("대화는 저장되었지만 로그 기록 중 오류가 발생했습니다.")
+                st.exception(log_error)
+    
             st.rerun()
+    
         except Exception as e:
             st.error("대화 중 오류가 발생했습니다.")
             st.exception(e)
