@@ -48,12 +48,22 @@ def extract_receipt_info(image_file):
 
     # Extract date
     date = datetime.date.today()
-    date_match = re.search(r'(\d{4}[./-]\d{1,2}[./-]\d{1,2})', full_text)
-    if date_match:
-        date_str = date_match.group(1).replace(".", "-").replace("/", "-")
-        try:
-            date = datetime.datetime.strptime(date_str, "%Y-%m-%d").date()
-        except ValueError:
+    date_patterns = [
+        r"\d{4}[./-]\d{1,2}[./-]\d{1,2}",          # 2024-06-29 or 2024.6.29
+        r"\d{2}[./-]\d{1,2}[./-]\d{1,2}",          # 24.6.29
+        r"\d{4}년\s*\d{1,2}월\s*\d{1,2}일",        # 2024년 6월 29일
+        r"\d{1,2}/\d{1,2}/\d{4}",                 # 06/29/2024
+    ]
+
+    for pattern in date_patterns:
+        match = re.search(pattern, full_text)
+        if match:
+            raw_date = match.group().strip()
+            for fmt in ["%Y-%m-%d", "%Y.%m.%d", "%y.%m.%d", "%m/%d/%Y", "%Y년 %m월 %d일"]:
+                try:
+                    date = datetime.datetime.strptime(raw_date, fmt).date()
+                    break
+                except ValueError:
             pass
 
     # Extract note/store name
