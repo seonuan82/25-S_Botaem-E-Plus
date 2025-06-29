@@ -165,6 +165,8 @@ with tab3:
         st.error("전체 내역을 불러오는 중 오류가 발생했습니다.")
         st.exception(e)
 
+
+
 with tab4:
     st.subheader("챗봇 '태미'와 대화하기")
 
@@ -187,25 +189,28 @@ with tab4:
 
     # 입력창
     input_key = f"chat_input_{chat_id}"
-    user_message = st.text_input("태미에게 질문해보세요", key=input_key)
-
-    # 입력 처리
+    user_message = st.text_input("네오에게 질문해보세요", key=input_key)
+    
     if user_message:
         try:
             bot_response = get_chat_response(user_message)
-
+    
+            if chat_id not in st.session_state.chat_rounds:
+                st.session_state.chat_rounds[chat_id] = []
+    
             st.session_state.chat_rounds[chat_id].append((user_message, bot_response))
-
+    
             add_chatlog(str(user_id), str(chat_id), f"User: {user_message}")
             add_chatlog(str(user_id), str(chat_id), f"Neo: {bot_response}")
-
-            st.session_state[input_key] = ""
+    
+            del st.session_state[input_key]
+    
             st.rerun()
-
+    
         except Exception as e:
             st.error("대화 중 오류가 발생했습니다.")
             st.exception(e)
-
+            
     # 현재 대화 출력
     st.markdown("---")  
     logs = st.session_state.chat_rounds.get(chat_id, [])
