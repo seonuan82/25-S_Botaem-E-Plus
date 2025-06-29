@@ -167,52 +167,66 @@ with tab3:
 
 with tab4:
     st.subheader("챗봇 '네오'와 대화하기")
-
+    
+    # 세션 초기화
     if "chat_rounds" not in st.session_state:
         st.session_state.chat_rounds = {}
-
+    
     if "current_chat_id" not in st.session_state:
         st.session_state.current_chat_id = str(uuid4())
-
-    if st.button("새로운 대화 시작"):
-        st.session_state.current_chat_id = str(uuid4())
-        st.session_state.chat_rounds[st.session_state.current_chat_id] = []
-
+    
+    # 새로운 대화 시작 버튼
+    if st.button("🆕 새로운 대화 시작"):
+        new_id = str(uuid4())
+        st.session_state.current_chat_id = new_id
+        st.session_state.chat_rounds[new_id] = []
+    
+    # 대화 목록에서 선택
+    chat_ids = list(st.session_state.chat_rounds.keys())[::-1]  # 최신 순 정렬
+    selected_chat_id = st.selectbox(
+        "📜 이전 대화 선택",
+        options=chat_ids,
+        format_func=lambda cid: f"대화 ID {cid[:8]}...",
+        index=0
+    )
+    
     chat_id = st.session_state.current_chat_id
-    st.markdown(f"**대화 ID:** `{chat_id}`")
-
-    # 사용자 입력
-    user_message = st.text_input("네오에게 질문해보세요", key=f"chat_input_{chat_id}")
-
+    st.markdown(f"**현재 대화 ID:** `{chat_id}`")
+    
+    # 채팅 입력
+    input_key = f"chat_input_{chat_id}"
+    user_message = st.text_input("네오에게 질문해보세요", key=input_key)
+    
     if user_message:
         try:
-            # 네오 응답 생성
             bot_response = get_chat_response(user_message)
     
-            # 대화 라운드 초기화가 안 되어 있다면 생성
+            # 대화 초기화
             if chat_id not in st.session_state.chat_rounds:
                 st.session_state.chat_rounds[chat_id] = []
     
-            # 메모리에 저장
             st.session_state.chat_rounds[chat_id].append((user_message, bot_response))
     
-            # 구글 시트에 저장
-            try:
-                add_chatlog(str(user_id), str(chat_id), f"User: {user_message}")
-                add_chatlog(str(user_id), str(chat_id), f"Neo: {bot_response}")
-            except Exception as log_error:
-                st.warning("대화는 저장되었지만 로그 기록 중 오류가 발생했습니다.")
-                st.exception(log_error)
+            add_chatlog(str(user_id), str(chat_id), f"User: {user_message}")
+            add_chatlog(str(user_id), str(chat_id), f"Neo: {bot_response}")
     
+            st.session_state[input_key] = ""
             st.rerun()
     
         except Exception as e:
             st.error("대화 중 오류가 발생했습니다.")
             st.exception(e)
-
+    
     # 대화 로그 표시
     st.markdown("---")
-    for question, answer in st.session_state.chat_rounds.get(chat_id, []):
-        st.markdown(f"**질문:** {question}")
-        st.markdown(f"**Neo:** {answer}")
+    st.markdown(f"**🕓 선택한 대화 기록 (ID {selected_chat_id[:8]}...)**")
+    
+    logs = st.session_state.chat_rounds.get(selected_chat_id, [])
+    if logs:
+        for q, a in logs:
+            st.markdown(f"**🧑‍💬 질문:** {q}")
+            st.markdown(f"**🤖 Neo:** {a}")
+    else:
+        st.info("선택한 대화에는 기록이 없습니다.")
+
 
