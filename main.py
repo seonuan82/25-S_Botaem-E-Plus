@@ -36,7 +36,7 @@ user_id = user.get('user_id') or user.get('id')
 st.markdown("---")
 st.subheader(f"{user_id}님, 환영합니다!")
 
-tab1, tab2 = st.tabs(["📋 사용 내역", "🤖 챗봇 / 새 입력"])
+tab1, tab2, tab3, tab4 = st.tabs(["📋 사용 내역", "새 입력", "전체 내역", "챗봇에게 질문"])
 
 with tab1:
     col1, col2 = st.columns([1, 2])
@@ -83,7 +83,7 @@ with tab1:
             st.exception(e)
 
 with tab2:
-    st.subheader("챗봇 또는 새 사용 내역 입력")
+    st.subheader("새 사용 내역 입력")
 
     # 새 사용 내역 입력 폼
     with st.form("entry_form"):
@@ -97,6 +97,17 @@ with tab2:
             st.success("사용 내역이 저장되었습니다.")
             st.rerun()
 
+with tab3:
+    st.subheader("전체 사용 내역")
+    st.markdown("### 최근 사용 내역")
+        try:
+            recent = get_recent_records(user_id=user_id)
+            if recent:
+                for r in recent:
+                    st.write(f"- {r['category']} : {r['amount']}원")
+
+with tab4:
+    st.subheader("챗봇에게 질문")
     # 챗봇 기능
     if st.button("챗봇 시작하기"):
         tip = get_today_tip()
