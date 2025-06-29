@@ -11,21 +11,22 @@ def login_user(user_id: str, password: str):
 
     result = conn.table("users").select("*").eq("user_id", user_id).execute()
     users = result.data
-    print("🔍 조회 결과:", users)
 
     if not users:
+        # 신규 사용자 → UUID 생성
         new_user = {
-                        "id": str(uuid4()),           # UUID로 생성된 id (records와 연결용)
-                        "user_id": user_id,           # 로그인용 username
-                        "password": password
-                    }
+            "id": str(uuid4()),       # UUID가 records의 user_id에 들어감
+            "user_id": user_id,
+            "password": password
+        }
         try:
-            insert_result = conn.table("users").insert(new_user).execute()
+            conn.table("users").insert(new_user).execute()
             return True, new_user
         except Exception as e:
-            print("❌ 삽입 실패:", e)
+            print("❌ 유저 삽입 실패:", e)
             return False, None
 
+    # 기존 사용자
     user = users[0]
     if user["password"] == password:
         return True, user
