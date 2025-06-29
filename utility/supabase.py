@@ -15,10 +15,10 @@ def login_user(user_id: str, password: str):
 
     if not users:
         new_user = {
-            "id": str(uuid4()),
-            "user_id": user_id,
-            "password": password
-        }
+                        "id": str(uuid4()),           # UUID로 생성된 id (records와 연결용)
+                        "user_id": user_id,           # 로그인용 username
+                        "password": password
+                    }
         try:
             insert_result = conn.table("users").insert(new_user).execute()
             return True, new_user
