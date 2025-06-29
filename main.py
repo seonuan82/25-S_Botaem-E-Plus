@@ -57,6 +57,9 @@ with tab1:
             st.error("사용 내역을 불러오는 중 오류가 발생했습니다.")
             st.exception(e)
 
+        tip = get_today_tip()
+        st.info(f"오늘의 팁: {tip}")
+
     # 사용 요약 및 보조금
     with col2:
         st.markdown("### 카테고리별 사용 현황")
@@ -121,14 +124,22 @@ with tab2:
             st.write(f"비고: {ocr_note}")
             with st.expander("OCR 전체 텍스트 보기"):
                 st.code(ocr_text)
-
+        with st.form("entry_form"):
+            category = st.selectbox("카테고리", ["식비", "교통", "의료", "기타"])    
+            
             if st.button("이 내용으로 자동 채우기"):
-                st.session_state["ocr_fill"] = {
-                    "amount": ocr_amount,
-                    "note": ocr_note,
-                    "date": ocr_date
-                }
-                st.rerun()
+                success = add_record(
+                user_id=user_id,
+                category=category,
+                amount=ocr_amount,
+                note=ocr_note,
+                date=ocr_date
+                )
+                if success:
+                    st.success("사용 내역이 저장되었습니다.")
+                    st.rerun()
+                else:
+                    st.error("저장 실패: DB에 삽입되지 않았습니다.")
 
         except Exception as e:
             if "BILLING_DISABLED" in str(e):
@@ -151,8 +162,41 @@ with tab3:
         st.exception(e)
 
 with tab4:
-    st.subheader("챗봇에게 질문")
-    # 챗봇 기능
-    if st.button("챗봇 시작하기"):
-        tip = get_today_tip()
-        st.info(f"오늘의 팁: {tip}")
+    st.subheader("챗봇 '네오'와 대화하기")
+
+    if "chat_rounds" not in st.session_state:
+        st.session_state.chat_rounds = {}
+
+    if "current_chat_id" not in st.session_state:
+        st.session_state.current_chat_id = str(uuid4())
+
+    if st.button("새로운 대화 시작"):
+        st.session_state.current_chat_id = str(uuid4())
+        st.session_state.chat_rounds[st.session_state.current_chat_id] = []
+
+    chat_id = st.session_state.current_chat_id
+    st.markdown(f"**대화 ID:** `{chat_id}`")
+
+    # 사용자 입력
+    user_message = st.text_input("네오에게 질문해보세요", key=f"chat_input_{chat_id}")
+    if user_message:
+        try:
+            # 여기에서 chat 응답을 생성 (모듈별로 get_today_tip 또는 자체 응답 함수)
+            from utility.chat import get_today_tip  # 예시
+            bot_response = get_chat_response(user_message)
+
+            # 로그 저장
+            st.session_state.chat_rounds[chat_id].append((user_message, bot_response))
+            add_chatlog(user_id, chat_id, f"User: {user_message}")
+            add_chatlog(user_id, chat_id, f"Neo: {bot_response}")
+            st.rerun()
+        except Exception as e:
+            st.error("대화 중 오류가 발생했습니다.")
+            st.exception(e)
+
+    # 대화 로그 표시
+    st.markdown("---")
+    for question, answer in st.session_state.chat_rounds.get(chat_id, []):
+        st.markdown(f"**질문:** {question}")
+        st.markdown(f"**Neo:** {answer}")
+
