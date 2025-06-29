@@ -1,59 +1,41 @@
-def detect_text(path):
-    """Detects text in the file."""
-    from google.cloud import vision
+from PIL import Image
+import pytesseract
+import re
+import datetime
 
-    client = vision.ImageAnnotatorClient()
+def extract_receipt_info(image_file):
+    """
+    Extract amount, date, and store name (note) from a receipt image.
+    Returns: amount (int), date (datetime.date), note (str), full OCR text (str)
+    """
+    try:
+        image = Image.open(image_file)
 
-    with open(path, "rb") as image_file:
-        content = image_file.read()
+        # OCR using Korean + English
+        text = pytesseract.image_to_string(image, lang='kor+eng')
 
-    image = vision.Image(content=content)
+        # --- 금액 추출 ---
+        amount = 0
+        amount_match = re.search(r'(합계|총액|합계금액)[^\d]*(\d{1,3}(,\d{3})*)', text)
+        if amount_match:
+            amount_str = amount_match.group(2).replace(",", "")
+            amount = int(amount_str)
 
-    response = client.text_detection(image=image)
-    texts = response.text_annotations
-    print("Texts:")
+        # --- 날짜 추출 ---
+        date = datetime.date.today()
+        date_match = re.search(r'(\d{4}[./-]\d{1,2}[./-]\d{1,2})', text)
+        if date_match:
+            date_str = date_match.group(1).replace(".", "-").replace("/", "-")
+            try:
+                date = datetime.datetime.strptime(date_str, "%Y-%m-%d").date()
+            except ValueError:
+                pass
 
-    for text in texts:
-        print(f'\n"{text.description}"')
+        # --- 비고/상호명 추출 ---
+        lines = [line.strip() for line in text.split("\n") if line.strip()]
+        note = lines[0] if lines else ""
 
-        vertices = [
-            f"({vertex.x},{vertex.y})" for vertex in text.bounding_poly.vertices
-        ]
+        return amount, date, note, text
 
-        print("bounds: {}".format(",".join(vertices)))
-
-    if response.error.message:
-        raise Exception(
-            "{}\nFor more info on error messages, check: "
-            "https://cloud.google.com/apis/design/errors".format(response.error.message)
-        )
-
-
-
-
-def detect_text_uri(uri):
-    """Detects text in the file located in Google Cloud Storage or on the Web."""
-    from google.cloud import vision
-
-    client = vision.ImageAnnotatorClient()
-    image = vision.Image()
-    image.source.image_uri = uri
-
-    response = client.text_detection(image=image)
-    texts = response.text_annotations
-    print("Texts:")
-
-    for text in texts:
-        print(f'\n"{text.description}"')
-
-        vertices = [
-            f"({vertex.x},{vertex.y})" for vertex in text.bounding_poly.vertices
-        ]
-
-        print("bounds: {}".format(",".join(vertices)))
-
-    if response.error.message:
-        raise Exception(
-            "{}\nFor more info on error messages, check: "
-            "https://cloud.google.com/apis/design/errors".format(response.error.message)
-        )
+    except Exception as e:
+        raise RuntimeError(f"OCR 처리 중 오류 발생: {e}")
