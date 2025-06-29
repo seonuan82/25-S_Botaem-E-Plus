@@ -16,7 +16,7 @@ def init_sheet():
 
 def login_user(user_id: str, password: str):
     sheet = init_sheet()
-    worksheet = sheet.worksheet("id")
+    worksheet = sheet.worksheet("user")
     users = worksheet.get_all_records()
     timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
@@ -24,8 +24,8 @@ def login_user(user_id: str, password: str):
     input_pw = password.strip()
 
     for user in users:
-        stored_user_id = str(user.get("user_id", "")).strip()
-        stored_pw = str(user.get("password", "")).strip()
+        stored_user_id = str(user.get("user_id", ""))
+        stored_pw = str(user.get("password", ""))
 
         if stored_user_id == input_user_id:
             if stored_pw == input_pw:
