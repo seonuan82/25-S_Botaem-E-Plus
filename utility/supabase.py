@@ -56,7 +56,7 @@ def get_summary(user_id):
 def get_all_records(user_id):
     return conn.table("records").select("*").eq("user_id", user_id).execute().data
 
-def add_record(user_id, category, amount, note):
+def add_record(user_id, category, amount, note, date):
     from uuid import UUID
     try:
         # UUID 형식 확인
@@ -69,7 +69,8 @@ def add_record(user_id, category, amount, note):
         "user_id": user_id,
         "category": category,
         "amount": amount,
-        "note": note or ""
+        "note": note or "",
+        "date" : date
     }
 
     try:
