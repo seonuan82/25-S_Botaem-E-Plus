@@ -21,8 +21,9 @@ if 'user' not in st.session_state:
         submitted = st.form_submit_button("로그인")
 
         if submitted:
-            success, user = login_user(user_id, password)
+            success, user = login_user(user_id_input, password)
             if success:
+                user['name'] = user_id_input
                 st.session_state['user'] = user
                 st.success("로그인에 성공했습니다!")
                 st.rerun()
@@ -33,11 +34,12 @@ if 'user' not in st.session_state:
 # 로그인된 사용자 정보
 user = st.session_state['user']
 user_id = user['id']
+user_name = user['name']
 
 
 # 로그인 후 정보 표시
 st.markdown("---")
-st.subheader(f"{user['user_id']}님, 환영합니다!")
+st.subheader(f"{user['user_name']}님, 환영합니다!")
 
 tab1, tab2, tab3, tab4 = st.tabs(["사용 내역", "내역 추가", "전체 내역", "챗봇에게 질문"])
 
@@ -88,33 +90,16 @@ with tab1:
 with tab2:
     st.subheader("새 사용 내역 입력")
 
-    uploaded_image = st.file_uploader("영수증 이미지를 업로드하세요", type=["jpg", "jpeg", "png"])
-    ocr_amount = 0
-    ocr_date = datetime.date.today()
-    ocr_note = ""
-
-    if uploaded_image:
-        try:
-            ocr_amount, ocr_date, ocr_note, ocr_text = extract_receipt_info(uploaded_image)
-            st.image(uploaded_image, caption="업로드한 영수증", use_column_width=True)
-            st.text_area("OCR 결과", ocr_text, height=200)
-            st.success(f"추출된 금액: {ocr_amount:,}원")
-            st.success(f"추출된 날짜: {ocr_date}")
-            st.info(f"추출된 비고: {ocr_note}")
-        except Exception as e:
-            st.error("OCR 처리 중 오류가 발생했습니다.")
-            st.exception(e)
-
     with st.form("entry_form"):
         category = st.selectbox("카테고리", ["식비", "교통", "의료", "기타"])
         amount = st.number_input("금액", min_value=0)
         note = st.text_input("비고", value="")
         date = st.date_input("사용날짜")
         submitted = st.form_submit_button("입력")
-    
+
         if submitted:
             success = add_record(
-                user_id=user['id'],   # UUID로 통일
+                user_id=user_id,
                 category=category,
                 amount=amount,
                 note=note,
@@ -125,6 +110,35 @@ with tab2:
                 st.rerun()
             else:
                 st.error("저장 실패: DB에 삽입되지 않았습니다.")
+
+    # OCR 기능 추가
+    st.markdown("### 영수증 OCR로 자동 입력")
+    uploaded_image = st.file_uploader("영수증 이미지 업로드", type=["jpg", "jpeg", "png"])
+
+    if uploaded_image:
+        try:
+            ocr_amount, ocr_date, ocr_note, ocr_text = extract_receipt_info(uploaded_image)
+            st.success("OCR 성공: 자동 추출된 정보")
+            st.write(f"금액: {ocr_amount}원")
+            st.write(f"날짜: {ocr_date}")
+            st.write(f"비고: {ocr_note}")
+            with st.expander("OCR 전체 텍스트 보기"):
+                st.code(ocr_text)
+
+            if st.button("이 내용으로 자동 채우기"):
+                st.session_state["ocr_fill"] = {
+                    "amount": ocr_amount,
+                    "note": ocr_note,
+                    "date": ocr_date
+                }
+                st.experimental_rerun()
+
+        except Exception as e:
+            if "BILLING_DISABLED" in str(e):
+                st.error("Vision API 사용을 위해 결제 활성화가 필요합니다.")
+            else:
+                st.error("OCR 처리 중 오류가 발생했습니다.")
+                st.exception(e)
 
 with tab3:
     st.subheader("전체 사용 내역")
@@ -144,4 +158,4 @@ with tab4:
     # 챗봇 기능
     if st.button("챗봇 시작하기"):
         tip = get_today_tip()
-        st.info(f"🤖 오늘의 팁: {tip}")
+        st.info(f"오늘의 팁: {tip}")
