@@ -30,7 +30,7 @@ def get_today_tip():
 def get_chat_response(message):
     full_prompt = CHAT_PROMPT.strip() + "\n\nuser question: " + message
     response = conversation.predict(input=full_prompt)
-    return response.choices[0].message['content']
+    return response
 
 def get_chat_history(user_id):
     # 예시 데이터
