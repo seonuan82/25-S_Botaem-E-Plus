@@ -90,7 +90,7 @@ with tab2:
         category = st.selectbox("카테고리", ["식비", "교통", "의료", "기타"])
         amount = st.number_input("금액", min_value=0)
         note = st.text_input("비고", value="")
-        date= st.date_input()
+        date= st.date_input('사용날짜')
         submitted = st.form_submit_button("입력")
 
         if submitted:
