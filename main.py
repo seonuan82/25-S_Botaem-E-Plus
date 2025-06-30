@@ -78,8 +78,9 @@ with tab1:
             st.error("사용 내역을 불러오는 중 오류가 발생했습니다.")
             st.exception(e)
 
+        st.markdown(" ")
         tip = get_today_tip()
-        st.info(f"오늘의 팁: {tip}")
+        st.info(f"오늘의 문구: {tip}")
 
     # 사용 요약 및 보조금
     with col2:
