@@ -196,16 +196,16 @@ with tab3:
         if all_records:
             date, cat2, amount2, note = st.columns(4)
             with date:
-                for r in recent:
+                for r in all_records:
                     st.markdown(f"<p style='text-align: center;'>{r['date']}</p>", unsafe_allow_html=True) 
             with cat2:
-                for r in recent:
+                for r in all_records:
                     st.markdown(f"<p style='text-align: center;'>{r['category']}</p>", unsafe_allow_html=True) 
             with amount2:
-                for r in recent:
+                for r in all_records:
                     st.markdown(f"<p style='text-align: center;'>{r['amount']:,}</p>", unsafe_allow_html=True)  
             with note:
-                for r in recent:
+                for r in all_records:
                     st.markdown(f"<p style='text-align: center;'>{r['note']}</p>", unsafe_allow_html=True)  
         else:
             st.info("저장된 전체 내역이 없습니다.")
