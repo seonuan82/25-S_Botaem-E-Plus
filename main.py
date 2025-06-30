@@ -6,7 +6,6 @@ import matplotlib.font_manager as fm
 from uuid import uuid4
 import datetime
 from utility.ocr import extract_receipt_info
-import time
 
 st.set_page_config(page_title="보탬 E 플러스", layout="wide")
 
@@ -140,7 +139,6 @@ with tab2:
             )
             if success:
                 st.success("사용 내역이 저장되었습니다.")
-                time.sleep(1)
                 st.rerun()
             else:
                 st.error("저장 실패: DB에 삽입되지 않았습니다.")
@@ -177,7 +175,6 @@ with tab2:
                     )
                     if success:
                         st.success("OCR 정보가 저장되었습니다.")
-                        time.sleep(1)
                         st.rerun()
                     else:
                         st.error("저장 실패: DB에 삽입되지 않았습니다.")
